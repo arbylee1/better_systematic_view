@@ -3,10 +3,16 @@ package better_systematic_view;
 import javafx.fxml.FXML;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
-public class ReviewSelectionController {
+import java.io.IOException;
+
+public class ReviewController {
     @FXML private TableView<Review> table;
     @FXML private TextField addName;
     @FXML private TextField addID;
@@ -24,5 +30,15 @@ public class ReviewSelectionController {
         addName.setText("");
         addID.setText("");
         addLastLogin.setText("");
+    }
+
+    @FXML
+    private void handleOpenReview(ActionEvent event) throws IOException {
+        Stage stage = (Stage) table.getScene().getWindow();
+
+        Parent root = FXMLLoader.load(getClass().getResource("test.fxml")); //Should point to second screen
+        Scene scene = new Scene(root, 600, 400);
+
+        stage.setScene(scene);
     }
 }

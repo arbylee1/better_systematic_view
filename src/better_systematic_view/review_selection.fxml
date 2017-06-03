@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.collections.FXCollections?>
-
-<?import better_systematic_view.Review?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="better_systematic_view.ReviewSelectionController">
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="better_systematic_view.ReviewController">
    <children>
       <TableView fx:id="table" layoutX="150.0" layoutY="75.0" minHeight="200.0" minWidth="300.0" prefHeight="200.0" prefWidth="300.0">
         <columns>
@@ -32,7 +30,7 @@
               </FXCollections>
           </items>
       </TableView>
-      <Button layoutX="218.0" layoutY="306.0" minWidth="100.0" mnemonicParsing="false" text="Open Selected Review" />
+      <Button layoutX="218.0" layoutY="306.0" minWidth="100.0" mnemonicParsing="false" onAction="#handleOpenReview" text="Open Selected Review" />
       <HBox layoutX="150.0" layoutY="272.0" prefHeight="31.0" prefWidth="401.0">
          <children>
             <TextField fx:id="addName" minWidth="100.0" prefHeight="31.0" prefWidth="100.0" promptText="Name" />
