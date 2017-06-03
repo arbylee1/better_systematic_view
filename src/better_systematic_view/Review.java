@@ -1,10 +1,5 @@
 package better_systematic_view;
 
-import java.util.Date;
-
-/**
- * Created by Porter on 6/3/2017.
- */
 public class Review {
     private String name;
     private String id;
