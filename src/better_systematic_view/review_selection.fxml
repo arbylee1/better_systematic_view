@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="better_systematic_view.ReviewSelectionController">
+   <children>
+      <TableView layoutX="150.0" layoutY="75.0" minHeight="200.0" minWidth="300.0" prefHeight="200.0" prefWidth="300.0">
+        <columns>
+          <TableColumn minWidth="100.0" prefWidth="100.0" text="Name" />
+          <TableColumn minWidth="100.0" prefWidth="100.0" text="ID" />
+            <TableColumn minWidth="100.0" prefWidth="100.0" text="Last Login" />
+        </columns>
+      </TableView>
+      <TextField layoutX="150.0" layoutY="275.0" minWidth="100.0" prefHeight="31.0" prefWidth="100.0" promptText="Name" />
+      <TextField layoutX="251.0" layoutY="275.0" minWidth="100.0" prefHeight="31.0" prefWidth="100.0" promptText="ID" />
+      <TextField layoutX="351.0" layoutY="275.0" minWidth="100.0" prefHeight="31.0" prefWidth="100.0" promptText="Last Login" />
+      <Button layoutX="450.0" layoutY="275.0" mnemonicParsing="false" onAction="#handleAddReview" text="Add Review" />
+      <Button layoutX="218.0" layoutY="306.0" minWidth="100.0" mnemonicParsing="false" text="Open Selected Review" />
+   </children>
+</AnchorPane>
