@@ -11,13 +11,11 @@ import javafx.scene.layout.AnchorPane;
 public class DocumentSelectedCell extends TableCell<Document, Integer> {
     @FXML private CheckBox checkBox;
 
-    public int id;
+    private int id;
 
     @Override
     public void updateItem(Integer item, boolean empty) {
         super.updateItem(item, empty);
-
-
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("document_selected_cell.fxml"));
@@ -25,7 +23,7 @@ public class DocumentSelectedCell extends TableCell<Document, Integer> {
 
             if (!empty) {
                 DocumentSelectedCell cell = loader.getController();
-                System.out.println(item);
+                //System.out.println(ReviewScreen.docs.get(item).getTitle());
                 cell.id = item;
             }
         } catch (Exception e) {
@@ -35,6 +33,10 @@ public class DocumentSelectedCell extends TableCell<Document, Integer> {
 
     @FXML
     public void checkBoxChanged(ActionEvent actionEvent) {
-        System.out.println(this.id);
+        if (checkBox.isSelected()) {
+            ReviewScreen.selectedDocs.add(ReviewScreen.docs.get(id));
+        } else {
+            ReviewScreen.selectedDocs.remove(ReviewScreen.docs.get(id));
+        }
     }
 }

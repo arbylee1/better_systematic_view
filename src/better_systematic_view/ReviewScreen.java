@@ -1,5 +1,9 @@
 package better_systematic_view;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.IntegerPropertyBase;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableIntegerValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -7,6 +11,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
+
+import javax.print.Doc;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ReviewScreen {
 
@@ -26,31 +34,28 @@ public class ReviewScreen {
     @FXML private Button excelButton;
     @FXML private TextField filterText;
 
+    static HashMap<Integer, Document> docs = new HashMap<>();
+    static ArrayList<Document> selectedDocs = new ArrayList<>();
+
     @FXML
     public void initialize() {
-        System.out.println("INITIALIZE");
-
-        checkCol.setCellValueFactory(new PropertyValueFactory<Document, Integer>("id"));
+        checkCol.setCellValueFactory(cd -> new SimpleIntegerProperty(cd.getValue().hashCode()).asObject());
         checkCol.setCellFactory(docList -> new DocumentSelectedCell());
+        docsTable.setItems(FXCollections.observableArrayList(docs.values()));
     }
 
     @FXML
     private void includeCheckedDocs(ActionEvent event) {
-        Document[] docsArray = new Document[3];
-        docsArray[0] = new Document(new String[] {"David Thomson"}, "How stuff " +
-                "works", "2020", 1);
-        docsArray[1] = new Document(new String[] {"Vince Nguyen"}, "Cats cats " +
-                "cats!", "2020", 2);
-        docsArray[2] = new Document(new String[] {"Vince Nguyen"}, "Walking back " +
-                "from strange places", "2021", 3);
 
-        ObservableList<Document> docs = FXCollections.observableArrayList(docsArray);
-        docsTable.setItems(docs);
     }
 
     @FXML
     private void excludeCheckedDocs(ActionEvent event) {
+        for (Document doc : selectedDocs) {
+            docsTable.getItems().remove(doc);
+        }
 
+        selectedDocs.clear();
     }
 
     @FXML
