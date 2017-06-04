@@ -33,15 +33,18 @@ public class ReviewScreen {
     @FXML private Button exportDocsButton;
     @FXML private Button excelButton;
     @FXML private TextField filterText;
+    @FXML private Label reviewLabel;
 
     static HashMap<Integer, Document> docs = new HashMap<>();
     static ArrayList<Document> selectedDocs = new ArrayList<>();
+    static String labelText;
 
     @FXML
     public void initialize() {
         checkCol.setCellValueFactory(cd -> new SimpleIntegerProperty(cd.getValue().hashCode()).asObject());
         checkCol.setCellFactory(docList -> new DocumentSelectedCell());
         docsTable.setItems(FXCollections.observableArrayList(docs.values()));
+        reviewLabel.setText(labelText);
     }
 
     @FXML

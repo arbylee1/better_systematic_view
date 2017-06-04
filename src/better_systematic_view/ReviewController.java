@@ -1,6 +1,5 @@
 package better_systematic_view;
 
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,8 +11,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ReviewController {
     @FXML private TableView<Review> table;
@@ -44,6 +41,12 @@ public class ReviewController {
 
         for (Document doc : docsArray) {
             ReviewScreen.docs.put(doc.hashCode(), doc);
+        }
+
+        Review selected = table.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            System.out.print(selected.getName());
+            ReviewScreen.labelText = selected.getName();
         }
 
         Stage stage = (Stage) table.getScene().getWindow();
