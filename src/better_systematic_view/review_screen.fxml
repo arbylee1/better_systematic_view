@@ -22,75 +22,65 @@
 <?import javafx.collections.*?>
 
 <GridPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="better_systematic_view.ReviewScreen">
-   <children>
-       <TabPane fx:id="tabs" prefHeight="600" prefWidth="800" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
-          <tabs>
-              <Tab fx:id="docsTab" text="Documents">
-                 <content>
-                     <VBox>
-                        <children>
-                            <HBox>
-                               <children>
-                                   <Button fx:id="includeButton" onAction="#includeCheckedDocs" text="Include" />
-                                   <Button fx:id="excludeButton" onAction="#excludeCheckedDocs" text="Exclude" />
-                                   <Button fx:id="deleteButton" onAction="#deleteCheckedDocs" text="Delete" />
-                                   <Button fx:id="addDocButton" onAction="#addDocument" text="Add" />
-                                   <Button fx:id="importDocsButton" onAction="#importDocuments" text="Import" />
-                                   <Button fx:id="exportDocsButton" onAction="#exportDocuments" text="Export" />
-                                   <Button fx:id="excelButton" onAction="#exportToExcel" text="Export to Excel" />
-                                   <Label text="Filter:" />
-                                   <TextField fx:id="filterText" prefWidth="150" />
-                               </children>
-                            </HBox>
-            
-                            <TableView fx:id="docsTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                                <columns>
-                                    <TableColumn fx:id="checkCol" minWidth="30.0" prefWidth="10.0">
+    <columnConstraints>
+        <ColumnConstraints/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints/>
+        <RowConstraints/>
+    </rowConstraints>
+    <TabPane fx:id="tabs" prefHeight="600" prefWidth="800" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
+        <Tab fx:id="docsTab" text="Documents">
+            <VBox>
+                <HBox>
+                    <Button fx:id="includeButton" onAction="#includeCheckedDocs" text="Include"/>
+                    <Button fx:id="excludeButton" onAction="#excludeCheckedDocs" text="Exclude"/>
+                    <Button fx:id="deleteButton" onAction="#deleteCheckedDocs" text="Delete"/>
+                    <Button fx:id="addDocButton" onAction="#addDocument" text="Add"/>
+                    <Button fx:id="importDocsButton" onAction="#importDocuments" text="Import"/>
+                    <Button fx:id="exportDocsButton" onAction="#exportDocuments" text="Export"/>
+                    <Button fx:id="excelButton" onAction="#exportToExcel" text="Export to Excel"/>
+                    <Label text="Filter:"/>
+                    <TextField fx:id="filterText" prefWidth="150"/>
+                </HBox>
+
+                <TableView fx:id="docsTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="checkCol" minWidth="30.0" prefWidth="10.0">
                             <!--<cellFactory><CheckBoxTableCellFactory/></cellFactory>-->
                         </TableColumn>
-            
-                                    <TableColumn text="Authors">
-                                        <cellValueFactory>
-                                    <PropertyValueFactory property="authorsString" />
-                                        </cellValueFactory>
-                                    </TableColumn>
-                                    <TableColumn text="Titles">
-                                        <cellValueFactory>
-                                    <PropertyValueFactory property="title" />
-                                        </cellValueFactory>
-                                    </TableColumn>
-                                    <TableColumn text="Year">
-                                        <cellValueFactory>
-                                    <PropertyValueFactory property="year" />
-                                        </cellValueFactory>
-                                    </TableColumn>
-                                </columns>
-                            </TableView>
-                        </children>
-                     </VBox>
-                 </content>
-              </Tab>
-      
-              <Tab fx:id="searchTab" text="Search">
+
+                        <TableColumn text="Authors">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="authorsString"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Titles">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="title"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Year">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="year"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+            </VBox>
+        </Tab>
+
+        <Tab fx:id="searchTab" text="Search">
 
         </Tab>
-      
-              <Tab fx:id="freqTab" text="Frequencies">
+
+        <Tab fx:id="freqTab" text="Frequencies">
 
         </Tab>
-      
-              <Tab fx:id="metaAnalysisTab" text="Meta-Analysis">
+
+        <Tab fx:id="metaAnalysisTab" text="Meta-Analysis">
 
         </Tab>
-          </tabs>
-       </TabPane>
-      <Label fx:id="reviewLabel" text="Label" />
-   </children>
-   <columnConstraints>
-      <ColumnConstraints />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints />
-      <RowConstraints />
-   </rowConstraints>
+    </TabPane>
+    <Label fx:id="reviewLabel" text="Label"/>
 </GridPane>
