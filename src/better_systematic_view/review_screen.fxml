@@ -30,9 +30,9 @@
         <Tab fx:id="docsTab" text="Documents">
             <VBox>
                 <HBox>
-                    <Button onAction="#includeCheckedDocs" text="I"/>
-                    <Button onAction="#excludeCheckedDocs" text="E"/>
                     <Button onAction="#confirmDelete" text="D"/>
+                    <Button onAction="#excludeCheckedDocs" text="E"/>
+                    <Button onAction="#includeCheckedDocs" text="I"/>
                     <Button onAction="#addDocument" text="Add"/>
                     <Button onAction="#importDocuments" text="Import"/>
                     <Button onAction="#exportDocuments" text="Export"/>
