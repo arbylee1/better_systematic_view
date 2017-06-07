@@ -20,6 +20,9 @@
 <?import javafx.scene.control.cell.*?>
 <?import javafx.collections.*?>
 
+<?import better_systematic_view.CheckBoxTableCellFactory?>
+
+<?import javafx.scene.control.CheckBox?>
 <GridPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="better_systematic_view.ReviewScreen">
     <TabPane fx:id="tabs" tabClosingPolicy="UNAVAILABLE" prefHeight="600" prefWidth="800">
         <Tab fx:id="docsTab" text="Documents">
@@ -36,22 +39,33 @@
                     <TextField fx:id="filterText" prefWidth="150"/>
                 </HBox>
 
-                <TableView fx:id="docsTable" prefHeight="200.0" prefWidth="200.0">
+                <TableView fx:id="docsTable" prefHeight="200.0" prefWidth="200.0" editable="true">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList"/>
+                    </items>
+
                     <columns>
                         <TableColumn fx:id="checkCol" prefWidth="10.0">
-                            <!--<cellFactory><CheckBoxTableCellFactory/></cellFactory>-->
+                            <graphic>
+                                <CheckBox fx:id="selectAllCheckBox" onAction="#selectAllDocuments"/>
+                            </graphic>
+                            <cellValueFactory>
+                                <PropertyValueFactory property="selected"/>
+                            </cellValueFactory>
                         </TableColumn>
-
                         <TableColumn text="Authors">
-                            <cellValueFactory><PropertyValueFactory property="authorsString"/>
+                            <cellValueFactory>
+                                <PropertyValueFactory property="authorsString"/>
                             </cellValueFactory>
                         </TableColumn>
                         <TableColumn text="Titles">
-                            <cellValueFactory><PropertyValueFactory property="title" />
+                            <cellValueFactory>
+                                <PropertyValueFactory property="title" />
                             </cellValueFactory>
                         </TableColumn>
                         <TableColumn text="Year">
-                            <cellValueFactory><PropertyValueFactory property="year" />
+                            <cellValueFactory>
+                                <PropertyValueFactory property="year" />
                             </cellValueFactory>
                         </TableColumn>
                     </columns>
