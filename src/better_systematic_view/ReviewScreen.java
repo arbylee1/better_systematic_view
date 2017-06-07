@@ -1,20 +1,17 @@
 package better_systematic_view;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.IntegerPropertyBase;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ObservableIntegerValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.CheckBoxTableCell;
 
-import javax.print.Doc;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
+import java.util.List;
 
 public class ReviewScreen {
 
@@ -23,8 +20,8 @@ public class ReviewScreen {
     @FXML private Tab searchTab;
     @FXML private Tab freqTab;
     @FXML private Tab metaAnalysisTab;
-    @FXML private TableView<Document> docsTable;
-    @FXML private TableColumn<Document, Integer> checkCol;
+    @FXML private TableView<TableDocument> docsTable;
+    @FXML private TableColumn<TableDocument, Boolean> checkCol;
     @FXML private Button includeButton;
     @FXML private Button excludeButton;
     @FXML private Button deleteButton;
@@ -34,17 +31,27 @@ public class ReviewScreen {
     @FXML private Button excelButton;
     @FXML private TextField filterText;
     @FXML private Label reviewLabel;
+    @FXML private CheckBox selectAllCheckBox;
 
-    static HashMap<Integer, Document> docs = new HashMap<>();
-    static ArrayList<Document> selectedDocs = new ArrayList<>();
-    static String labelText;
+    private static String labelText;
+    private List<TableDocument> selectedDocs = new ArrayList<>();
+
+    public void setDocuments(Collection<Document> docs) {
+        docsTable.getItems().clear();
+        docs.forEach(d -> docsTable.getItems().add(new TableDocument(d)));
+    }
 
     @FXML
     public void initialize() {
-        checkCol.setCellValueFactory(cd -> new SimpleIntegerProperty(cd.getValue().hashCode()).asObject());
-        checkCol.setCellFactory(docList -> new DocumentSelectedCell());
-        docsTable.setItems(FXCollections.observableArrayList(docs.values()));
+        // There is no way to set the cell factory for checkbox cells directly
+        // in FXML
+        checkCol.setCellFactory(CheckBoxTableCell.forTableColumn(checkCol));
         reviewLabel.setText(labelText);
+    }
+
+    @FXML
+    private void selectAllDocuments(ActionEvent event) {
+        docsTable.getItems().forEach(d -> d.selected.set(selectAllCheckBox.isSelected()));
     }
 
     @FXML
@@ -54,11 +61,12 @@ public class ReviewScreen {
 
     @FXML
     private void excludeCheckedDocs(ActionEvent event) {
-        for (Document doc : selectedDocs) {
+        for (TableDocument doc : selectedDocs) {
             docsTable.getItems().remove(doc);
         }
 
         selectedDocs.clear();
+        selectAllCheckBox.setSelected(false);
     }
 
     @FXML
@@ -84,5 +92,53 @@ public class ReviewScreen {
     @FXML
     private void exportToExcel(ActionEvent event) {
 
+    }
+
+    /**
+     * This inner class is used to provide an easy way to represent documents in
+     * the TableView on the review screen. It includes the selected property,
+     * which allows the review screen to keep track of which documents are
+     * selected.
+     */
+    public class TableDocument {
+
+        private SimpleStringProperty authorsString;
+        private SimpleStringProperty title;
+        private SimpleStringProperty year;
+        private SimpleBooleanProperty selected;
+
+        TableDocument(Document doc) {
+            authorsString = new SimpleStringProperty(doc.getAuthorsString());
+            title = new SimpleStringProperty(doc.getTitle());
+            year = new SimpleStringProperty(doc.getYear());
+            selected = new SimpleBooleanProperty(false);
+
+            selected.addListener((observable, oldValue, newValue) -> {
+                if (newValue) {
+                    selectedDocs.add(TableDocument.this);
+                } else {
+                    selectedDocs.remove(TableDocument.this);
+                }
+            });
+        }
+
+        // These function are necessary for the cell value factories for each
+        // column in the table.
+
+        public SimpleStringProperty authorsStringProperty() {
+            return authorsString;
+        }
+
+        public SimpleStringProperty titleProperty() {
+            return title;
+        }
+
+        public SimpleStringProperty yearProperty() {
+            return year;
+        }
+
+        public SimpleBooleanProperty selectedProperty() {
+            return selected;
+        }
     }
 }

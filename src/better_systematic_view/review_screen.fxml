@@ -21,15 +21,12 @@
 <?import javafx.scene.control.cell.*?>
 <?import javafx.collections.*?>
 
-<GridPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="better_systematic_view.ReviewScreen">
-    <columnConstraints>
-        <ColumnConstraints/>
-    </columnConstraints>
-    <rowConstraints>
-        <RowConstraints/>
-        <RowConstraints/>
-    </rowConstraints>
-    <TabPane fx:id="tabs" prefHeight="600" prefWidth="800" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
+<?import better_systematic_view.CheckBoxTableCellFactory?>
+
+<?import javafx.scene.control.CheckBox?>
+
+<GridPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="better_systematic_view.ReviewScreen">
+    <TabPane fx:id="tabs" tabClosingPolicy="UNAVAILABLE" prefHeight="600" prefWidth="800" GridPane.rowIndex="1">
         <Tab fx:id="docsTab" text="Documents">
             <VBox>
                 <HBox>
@@ -44,12 +41,20 @@
                     <TextField fx:id="filterText" prefWidth="150"/>
                 </HBox>
 
-                <TableView fx:id="docsTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                    <columns>
-                        <TableColumn fx:id="checkCol" minWidth="30.0" prefWidth="10.0">
-                            <!--<cellFactory><CheckBoxTableCellFactory/></cellFactory>-->
-                        </TableColumn>
+                <TableView fx:id="docsTable" prefHeight="200.0" prefWidth="200.0" editable="true">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList"/>
+                    </items>
 
+                    <columns>
+                        <TableColumn fx:id="checkCol" prefWidth="10.0">
+                            <graphic>
+                                <CheckBox fx:id="selectAllCheckBox" onAction="#selectAllDocuments"/>
+                            </graphic>
+                            <cellValueFactory>
+                                <PropertyValueFactory property="selected"/>
+                            </cellValueFactory>
+                        </TableColumn>
                         <TableColumn text="Authors">
                             <cellValueFactory>
                                 <PropertyValueFactory property="authorsString"/>
