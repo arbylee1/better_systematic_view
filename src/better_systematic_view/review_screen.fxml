@@ -1,33 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
+<?import better_systematic_view.CheckBoxCellFactory?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.cell.CheckBoxTableCell?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.scene.control.cell.*?>
-<?import javafx.collections.*?>
-
-<?import better_systematic_view.CheckBoxCellFactory?>
-
-<?import javafx.scene.control.CheckBox?>
 
 <GridPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="better_systematic_view.ReviewScreen">
-    <TabPane fx:id="tabs" tabClosingPolicy="UNAVAILABLE" prefHeight="600" prefWidth="800" GridPane.rowIndex="1">
-        <Tab fx:id="docsTab" text="Documents">
+    <TabPane tabClosingPolicy="UNAVAILABLE" prefHeight="600" prefWidth="800" GridPane.rowIndex="1">
+        <Tab text="Documents">
             <VBox>
                 <HBox>
                     <Button onAction="#confirmDelete" text="D"/>
