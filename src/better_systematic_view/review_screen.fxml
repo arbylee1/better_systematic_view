@@ -21,7 +21,7 @@
 <?import javafx.scene.control.cell.*?>
 <?import javafx.collections.*?>
 
-<?import better_systematic_view.CheckBoxTableCellFactory?>
+<?import better_systematic_view.CheckBoxCellFactory?>
 
 <?import javafx.scene.control.CheckBox?>
 
@@ -51,6 +51,9 @@
                             <graphic>
                                 <CheckBox fx:id="selectAllCheckBox" onAction="#selectAllDocuments"/>
                             </graphic>
+                            <cellFactory>
+                                <CheckBoxCellFactory/>
+                            </cellFactory>
                             <cellValueFactory>
                                 <PropertyValueFactory property="selected"/>
                             </cellValueFactory>

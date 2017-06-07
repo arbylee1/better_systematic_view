@@ -45,7 +45,7 @@ public class ReviewScreen {
     public void initialize() {
         // There is no way to set the cell factory for checkbox cells directly
         // in FXML
-        checkCol.setCellFactory(CheckBoxTableCell.forTableColumn(checkCol));
+        //checkCol.setCellFactory(CheckBoxTableCell.forTableColumn(checkCol));
         reviewLabel.setText(labelText);
     }
 
