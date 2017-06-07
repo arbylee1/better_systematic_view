@@ -30,15 +30,15 @@
         <Tab fx:id="docsTab" text="Documents">
             <VBox>
                 <HBox>
-                    <Button fx:id="includeButton" onAction="#includeCheckedDocs" text="Include"/>
-                    <Button fx:id="excludeButton" onAction="#excludeCheckedDocs" text="Exclude"/>
-                    <Button fx:id="deleteButton" onAction="#deleteCheckedDocs" text="Delete"/>
-                    <Button fx:id="addDocButton" onAction="#addDocument" text="Add"/>
-                    <Button fx:id="importDocsButton" onAction="#importDocuments" text="Import"/>
-                    <Button fx:id="exportDocsButton" onAction="#exportDocuments" text="Export"/>
-                    <Button fx:id="excelButton" onAction="#exportToExcel" text="Export to Excel"/>
+                    <Button onAction="#includeCheckedDocs" text="I"/>
+                    <Button onAction="#excludeCheckedDocs" text="E"/>
+                    <Button onAction="#confirmDelete" text="D"/>
+                    <Button onAction="#addDocument" text="Add"/>
+                    <Button onAction="#importDocuments" text="Import"/>
+                    <Button onAction="#exportDocuments" text="Export"/>
+                    <Button onAction="#exportToExcel" text="Export to Excel"/>
                     <Label text="Filter:"/>
-                    <TextField fx:id="filterText" prefWidth="150"/>
+                    <TextField prefWidth="150"/>
                 </HBox>
 
                 <TableView fx:id="docsTable" prefHeight="200.0" prefWidth="200.0" editable="true">
@@ -47,9 +47,9 @@
                     </items>
 
                     <columns>
-                        <TableColumn fx:id="checkCol" prefWidth="10.0">
+                        <TableColumn prefWidth="10.0">
                             <graphic>
-                                <CheckBox fx:id="selectAllCheckBox" onAction="#selectAllDocuments"/>
+                                <CheckBox fx:id="selectAllCheckBox" onAction="#selectAllDocuments" disable="true"/>
                             </graphic>
                             <cellFactory>
                                 <CheckBoxCellFactory/>
@@ -78,17 +78,18 @@
             </VBox>
         </Tab>
 
-        <Tab fx:id="searchTab" text="Search">
+        <Tab text="Search">
 
         </Tab>
 
-        <Tab fx:id="freqTab" text="Frequencies">
+        <Tab text="Frequencies">
 
         </Tab>
 
-        <Tab fx:id="metaAnalysisTab" text="Meta-Analysis">
+        <Tab text="Meta-Analysis">
 
         </Tab>
     </TabPane>
+
     <Label fx:id="reviewLabel" text="Label"/>
 </GridPane>

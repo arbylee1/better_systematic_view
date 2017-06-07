@@ -4,10 +4,11 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,37 +16,42 @@ import java.util.List;
 
 public class ReviewScreen {
 
-    @FXML private TabPane tabs;
-    @FXML private Tab docsTab;
-    @FXML private Tab searchTab;
-    @FXML private Tab freqTab;
-    @FXML private Tab metaAnalysisTab;
     @FXML private TableView<TableDocument> docsTable;
-    @FXML private TableColumn<TableDocument, Boolean> checkCol;
-    @FXML private Button includeButton;
-    @FXML private Button excludeButton;
-    @FXML private Button deleteButton;
-    @FXML private Button addDocButton;
-    @FXML private Button importDocsButton;
-    @FXML private Button exportDocsButton;
-    @FXML private Button excelButton;
-    @FXML private TextField filterText;
     @FXML private Label reviewLabel;
     @FXML private CheckBox selectAllCheckBox;
+
+    private static final String CONFIRM_DELETE_TITLE = "Delete files";
+    private static final String CONFIRM_DELETE = "Are you sure you want to delete these files from the review?";
 
     private static String labelText;
     private List<TableDocument> selectedDocs = new ArrayList<>();
 
     public void setDocuments(Collection<Document> docs) {
+        if (docs.isEmpty()) {
+            return;
+        }
+
+        selectAllCheckBox.setDisable(false);
         docsTable.getItems().clear();
         docs.forEach(d -> docsTable.getItems().add(new TableDocument(d)));
     }
 
+    private void deleteSelectedDocuments() {
+        selectAllCheckBox.setSelected(false);
+
+        if (selectedDocs.size() == docsTable.getItems().size()) {
+            selectAllCheckBox.setDisable(true);
+        }
+
+        for (TableDocument doc : selectedDocs) {
+            docsTable.getItems().remove(doc);
+        }
+
+        selectedDocs.clear();
+    }
+
     @FXML
     public void initialize() {
-        // There is no way to set the cell factory for checkbox cells directly
-        // in FXML
-        //checkCol.setCellFactory(CheckBoxTableCell.forTableColumn(checkCol));
         reviewLabel.setText(labelText);
     }
 
@@ -61,17 +67,25 @@ public class ReviewScreen {
 
     @FXML
     private void excludeCheckedDocs(ActionEvent event) {
-        for (TableDocument doc : selectedDocs) {
-            docsTable.getItems().remove(doc);
-        }
 
-        selectedDocs.clear();
-        selectAllCheckBox.setSelected(false);
     }
 
     @FXML
-    private void deleteCheckedDocs(ActionEvent event) {
+    private void confirmDelete(ActionEvent event) {
+        if (selectedDocs.isEmpty()) {
+            return;
+        }
 
+        Alert areYouSure = new Alert(Alert.AlertType.CONFIRMATION);
+        areYouSure.setHeaderText(null);
+        areYouSure.setTitle(CONFIRM_DELETE_TITLE);
+        areYouSure.setContentText(CONFIRM_DELETE);
+
+        areYouSure.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                deleteSelectedDocuments();
+            }
+        });
     }
 
     @FXML
