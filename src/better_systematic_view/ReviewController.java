@@ -34,10 +34,32 @@ public class ReviewController {
 
     @FXML
     private void handleOpenReview(ActionEvent event) throws IOException {
+<<<<<<< HEAD
         Stage stage = (Stage) table.getScene().getWindow();
 
         Parent root = FXMLLoader.load(getClass().getResource("test.fxml")); //Should point to second screen
         Scene scene = new Scene(root, 600, 400);
+=======
+        Document[] docsArray = new Document[3];
+        docsArray[0] = new Document(new String[] {"David Thomson"}, "How stuff works", "2020");
+        docsArray[1] = new Document(new String[] {"Albert Einstein"}, "Space is weird", "2020");
+        docsArray[2] = new Document(new String[] {"John Smith"}, "Behavioral Study", "2021");
+
+        for (Document doc : docsArray) {
+            ReviewScreen.docs.put(doc.hashCode(), doc);
+        }
+
+        Review selected = table.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            System.out.print(selected.getName());
+            ReviewScreen.labelText = selected.getName();
+        }
+
+        Stage stage = (Stage) table.getScene().getWindow();
+
+        Parent root = FXMLLoader.load(getClass().getResource("review_screen.fxml")); //Should point to second screen
+        Scene scene = new Scene(root, 800, 600);
+>>>>>>> master
 
         stage.setScene(scene);
     }
