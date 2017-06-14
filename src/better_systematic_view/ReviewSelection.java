@@ -36,12 +36,6 @@ public class ReviewSelection {
 
     @FXML
     private void handleOpenReview(ActionEvent event) throws IOException {
-<<<<<<< HEAD
-        Stage stage = (Stage) table.getScene().getWindow();
-
-        Parent root = FXMLLoader.load(getClass().getResource("test.fxml")); //Should point to second screen
-        Scene scene = new Scene(root, 600, 400);
-=======
         Document[] docsArray = new Document[3];
         docsArray[0] = new Document(new String[] {"David Thomson"}, "How stuff works", "2020");
         docsArray[1] = new Document(new String[] {"Albert Einstein"}, "Space is weird", "2020");
@@ -53,12 +47,7 @@ public class ReviewSelection {
         controller.setDocuments(Arrays.asList(docsArray));
 
         Scene scene = new Scene(root, 800, 600);
-<<<<<<< HEAD:src/better_systematic_view/ReviewController.java
->>>>>>> master
-
-=======
         Stage stage = (Stage) table.getScene().getWindow();
->>>>>>> master:src/better_systematic_view/ReviewSelection.java
         stage.setScene(scene);
     }
 }
