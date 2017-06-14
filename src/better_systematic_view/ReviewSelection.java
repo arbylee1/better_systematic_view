@@ -12,26 +12,26 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ReviewSelection {
 
     @FXML private TableView<Review> table;
     @FXML private TextField addName;
-    @FXML private TextField addID;
-    @FXML private TextField addLastLogin;
 
     @FXML
     private void handleAddReview(ActionEvent event) {
         ObservableList<Review> data = table.getItems();
-        data.add(new Review(
-                addName.getText(),
-                addID.getText(),
-                addLastLogin.getText()
-        ));
 
-        addName.setText("");
-        addID.setText("");
-        addLastLogin.setText("");
+        if(!addName.getText().isEmpty()) {
+            data.add(new Review(
+                    addName.getText(),
+                    String.valueOf(ThreadLocalRandom.current().nextInt(1, 100 + 1)),
+                    "Never"
+            ));
+
+            addName.setText("");
+        }
     }
 
     @FXML
