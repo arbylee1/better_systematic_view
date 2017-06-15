@@ -36,15 +36,8 @@ public class ReviewSelection {
 
     @FXML
     private void handleOpenReview(ActionEvent event) throws IOException {
-        Document[] docsArray = new Document[3];
-        docsArray[0] = new Document(new String[] {"David Thomson"}, "How stuff works", "2020");
-        docsArray[1] = new Document(new String[] {"Albert Einstein"}, "Space is weird", "2020");
-        docsArray[2] = new Document(new String[] {"John Smith"}, "Behavioral Study", "2021");
-
         FXMLLoader loader = new FXMLLoader(getClass().getResource("review_screen.fxml"));
         Parent root = loader.load();
-        ReviewScreen controller = loader.getController();
-        controller.setDocuments(Arrays.asList(docsArray));
 
         Scene scene = new Scene(root, 800, 600);
         Stage stage = (Stage) table.getScene().getWindow();
