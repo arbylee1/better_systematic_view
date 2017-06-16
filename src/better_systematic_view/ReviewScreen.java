@@ -2,6 +2,7 @@ package better_systematic_view;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -9,7 +10,10 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,6 +29,8 @@ public class ReviewScreen {
 
     private static String labelText;
     private List<TableDocument> selectedDocs = new ArrayList<>();
+
+    private final FileChooser fileChooser = new FileChooser();
 
     public void setDocuments(Collection<Document> docs) {
         if (docs.isEmpty()) {
@@ -90,7 +96,14 @@ public class ReviewScreen {
 
     @FXML
     private void addDocument(ActionEvent event) {
+        File file = fileChooser.showOpenDialog(docsTable.getScene().getWindow());
+        if (file != null) {
+            String name = file.getName();
 
+            ObservableList<TableDocument> data = docsTable.getItems();
+
+            data.add(new TableDocument(new Document(new String[0], name, "None")));
+        }
     }
 
     @FXML
