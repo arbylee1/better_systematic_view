@@ -8,71 +8,84 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="better_systematic_view.ReviewScreen">
-    <TabPane tabClosingPolicy="UNAVAILABLE" prefHeight="600" prefWidth="800" GridPane.rowIndex="1">
-        <Tab text="Documents">
-            <VBox>
-                <HBox>
-                    <Button onAction="#confirmDelete" text="D"/>
-                    <Button onAction="#excludeCheckedDocs" text="E"/>
-                    <Button onAction="#includeCheckedDocs" text="I"/>
-                    <Button onAction="#addDocument" text="Add"/>
-                    <Button onAction="#importDocuments" text="Import"/>
-                    <Button onAction="#exportDocuments" text="Export"/>
-                    <Button onAction="#exportToExcel" text="Export to Excel"/>
-                    <Label text="Filter:"/>
-                    <TextField prefWidth="150"/>
-                </HBox>
+<GridPane prefHeight="600.0" prefWidth="800.0"
+	xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="better_systematic_view.ReviewScreen">
+	<TabPane tabClosingPolicy="UNAVAILABLE" prefHeight="600"
+		prefWidth="800" GridPane.rowIndex="1">
+		<Tab text="Documents">
+			<VBox>
+				<HBox prefHeight="30">
+					<HBox alignment="center">
+						<HBox prefWidth="10" />
+						<Button fx:id="includeDoc" onAction="#includeCheckedDocs" />
+						<Button fx:id="excludeDoc" onAction="#excludeCheckedDocs" />
+						<Button fx:id="deleteDoc" onAction="#confirmDelete" />
+						<HBox prefWidth="10" />
+						<Button fx:id="addDoc" onAction="#addDocument" />
+						<Button fx:id="importDoc" onAction="#importDocuments" />
+						<Button fx:id="exportDoc" onAction="#exportDocuments" />
+						<HBox prefWidth="10" />
+						<Button fx:id="exportToExcel" onAction="#exportToExcel" />
+						<HBox prefWidth="20" />
 
-                <TableView fx:id="docsTable" prefHeight="200.0" prefWidth="200.0" editable="true">
-                    <items>
-                        <FXCollections fx:factory="observableArrayList"/>
-                    </items>
 
-                    <columns>
-                        <TableColumn prefWidth="10.0">
-                            <graphic>
-                                <CheckBox fx:id="selectAllCheckBox" onAction="#selectAllDocuments" disable="true"/>
-                            </graphic>
-                            <cellFactory>
-                                <CheckBoxCellFactory/>
-                            </cellFactory>
-                            <cellValueFactory>
-                                <PropertyValueFactory property="selected"/>
-                            </cellValueFactory>
-                        </TableColumn>
-                        <TableColumn text="Authors">
-                            <cellValueFactory>
-                                <PropertyValueFactory property="authorsString"/>
-                            </cellValueFactory>
-                        </TableColumn>
-                        <TableColumn text="Titles">
-                            <cellValueFactory>
-                                <PropertyValueFactory property="title"/>
-                            </cellValueFactory>
-                        </TableColumn>
-                        <TableColumn text="Year">
-                            <cellValueFactory>
-                                <PropertyValueFactory property="year"/>
-                            </cellValueFactory>
-                        </TableColumn>
-                    </columns>
-                </TableView>
-            </VBox>
-        </Tab>
+						<Label text="Filter: " />
+						<TextField prefWidth="150" />
+					</HBox>
+				</HBox>
 
-        <Tab text="Search">
+				<TableView fx:id="docsTable" prefWidth="200.0"
+					editable="true">
+					<items>
+						<FXCollections fx:factory="observableArrayList" />
+					</items>
 
-        </Tab>
+					<columns>
+						<TableColumn prefWidth="30">
+							<graphic>
+								<CheckBox fx:id="selectAllCheckBox" onAction="#selectAllDocuments"
+									disable="true" />
+							</graphic>
+							<cellFactory>
+								<CheckBoxCellFactory />
+							</cellFactory>
+							<cellValueFactory>
+								<PropertyValueFactory property="selected" />
+							</cellValueFactory>
+						</TableColumn>
+						<TableColumn text="Authors" prefWidth="200">
+							<cellValueFactory>
+								<PropertyValueFactory property="authorsString" />
+							</cellValueFactory>
+						</TableColumn>
+						<TableColumn text="Titles" prefWidth="420">
+							<cellValueFactory>
+								<PropertyValueFactory property="title" />
+							</cellValueFactory>
+						</TableColumn>
+						<TableColumn text="Year" prefWidth="150">
+							<cellValueFactory>
+								<PropertyValueFactory property="year" />
+							</cellValueFactory>
+						</TableColumn>
+					</columns>
+				</TableView>
+			</VBox>
+		</Tab>
 
-        <Tab text="Frequencies">
+		<Tab text="Search">
 
-        </Tab>
+		</Tab>
 
-        <Tab text="Meta-Analysis">
+		<Tab text="Frequencies">
 
-        </Tab>
-    </TabPane>
+		</Tab>
 
-    <Label fx:id="reviewLabel" text="Label"/>
+		<Tab text="Meta-Analysis">
+
+		</Tab>
+	</TabPane>
+
+	<Label fx:id="reviewLabel" text="Label" />
 </GridPane>

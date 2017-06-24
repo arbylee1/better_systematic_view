@@ -9,6 +9,56 @@
    -fx-border-width: 1px;
 }
 
+#includeDoc{
+	-fx-background-image: url('plus.png');
+	-fx-background-size: 15px;
+	-fx-padding: 0px 12px 5px 12px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+#excludeDoc{
+	-fx-background-image: url('minus.png');
+	-fx-background-size: 15px;
+	-fx-padding: 0px 12px 5px 12px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+#deleteDoc{
+	-fx-background-image: url('delete.png');
+	-fx-background-size: 13px;
+	-fx-padding: 0px 12px 5px 12px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+#addDoc{
+	-fx-background-image: url('add.png');
+	-fx-background-size: 15px;
+	-fx-padding: 3px 12px 3px 12px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+#importDoc{
+	-fx-background-image: url('import-icon.png');
+	-fx-background-size: 15px;
+	-fx-padding: 3px 12px 3px 12px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+#exportDoc{
+	-fx-background-image: url('export.png');
+	-fx-background-size: 15px;
+	-fx-padding: 3px 12px 3px 12px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#exportToExcel{
+	-fx-background-image: url('exportToExcel.png');
+	-fx-background-size: 15px;
+	-fx-padding: 3px 12px 3px 12px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
 
 .table-view:focused{
     -fx-background-color: white;
@@ -18,23 +68,26 @@
 
 .table-view .column-header-background{
     -fx-background-color: #89CD48;
+    
 }
 
 .table-view .column-header-background .label{
     -fx-background-color: transparent;
     -fx-text-fill: black;
     -fx-font-weight: bold;
-    
 }
 
 .table-view .column-header {
     -fx-background-color: transparent;
+        -fx-border-color:black;
+    
 }
 
 
 .table-view .table-cell{
     -fx-text-fill: black;
     -fx-text-alignment: center;
+    
 }
 
 .table-row-cell{
