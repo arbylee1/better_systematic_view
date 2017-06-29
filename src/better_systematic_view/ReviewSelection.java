@@ -47,7 +47,7 @@ public class ReviewSelection {
         File f = new File("review_screen_ui.css");
         scene.getStylesheets().clear();
         System.out.print(f.getAbsolutePath());
-        scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("review_screen_ui.css", "src/better_systematic_view/review_screen_ui.css"));
+        //scene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("review_screen_ui.css", "src/better_systematic_view/review_screen_ui.css"));
 
     }
 }
