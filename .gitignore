@@ -1,3 +1,5 @@
+# Created by .ignore support plugin (hsz.mobi)
+
 # Compiled class file
 *.class
 
@@ -23,3 +25,14 @@ hs_err_pid*
 
 .idea/*
 out/*
+.idea/workspace.xml
+.idea/better_systematic_view.iml
+.idea/compiler.xml
+.idea/description.html
+.idea/encodings.xml
+.idea/gradle.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/uiDesigner.xml
+.idea/vcs.xml
+.idea/workspace.xml

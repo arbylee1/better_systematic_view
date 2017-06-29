@@ -17,6 +17,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ReviewScreen {
 
@@ -96,13 +97,10 @@ public class ReviewScreen {
 
     @FXML
     private void addDocument(ActionEvent event) {
-        File file = fileChooser.showOpenDialog(docsTable.getScene().getWindow());
+        File file = fileChooser.showOpenDialog((Stage) docsTable.getScene().getWindow());
         if (file != null) {
-            String name = file.getName();
-
             ObservableList<TableDocument> data = docsTable.getItems();
-
-            data.add(new TableDocument(new Document(new String[0], name, "None")));
+            data.add(new TableDocument(new Document(new String[0], file.getName(), "None")));
         }
     }
 
