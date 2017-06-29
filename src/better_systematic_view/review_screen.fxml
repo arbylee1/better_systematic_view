@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.VBox?>
 
 <GridPane prefHeight="600.0" prefWidth="800.0"
-	xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="better_systematic_view.ReviewScreen"
-    stylesheets="@review_screen_ui.css">
+          xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="better_systematic_view.ReviewScreen"
+          stylesheets="@review_screen_ui.css">
 	<TabPane tabClosingPolicy="UNAVAILABLE" prefHeight="600"
 		prefWidth="800" GridPane.rowIndex="1">
 		<Tab text="Documents">
@@ -29,7 +29,6 @@
 						<HBox prefWidth="10" />
 						<Button fx:id="exportToExcel" onAction="#exportToExcel" />
 						<HBox prefWidth="20" />
-
 
 						<Label text="Filter: " />
 						<TextField prefWidth="150" />
