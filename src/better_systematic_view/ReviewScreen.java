@@ -97,14 +97,10 @@ public class ReviewScreen {
 
     @FXML
     private void addDocument(ActionEvent event) {
-        //Add code for selecting file and adding to table
         File file = fileChooser.showOpenDialog((Stage) docsTable.getScene().getWindow());
         if (file != null) {
-            String name = file.getName();
-
             ObservableList<TableDocument> data = docsTable.getItems();
-
-            data.add(new TableDocument(new Document(new String[0], name, "None")));
+            data.add(new TableDocument(new Document(new String[0], file.getName(), "None")));
         }
     }
 
