@@ -33,6 +33,7 @@
 						<Label text="Filter: " />
 						<TextField fx:id="filterTextBox" prefWidth="150" />
 						<Button text="Search" onAction="#filter"/>
+						<Label fx:id="searchingProgressLabel" text="Searching..." visible="false"/>
 					</HBox>
 				</HBox>
 

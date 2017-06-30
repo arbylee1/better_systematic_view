@@ -2,21 +2,19 @@ package better_systematic_view;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 import org.jpedal.examples.text.FindTextInRectangle;
+import org.jpedal.exception.PdfException;
 import org.jpedal.grouping.SearchType;
 
 public class ReviewScreen {
@@ -25,6 +23,7 @@ public class ReviewScreen {
     @FXML private Label reviewLabel;
     @FXML private CheckBox selectAllCheckBox;
     @FXML private TextField filterTextBox;
+    @FXML private Label searchingProgressLabel;
 
     private static final String CONFIRM_DELETE_TITLE = "Delete files";
     private static final String CONFIRM_DELETE = "Are you sure you want to delete these files from the review?";
@@ -98,10 +97,12 @@ public class ReviewScreen {
 
     @FXML
     private void addDocument(ActionEvent event) {
-        File file = fileChooser.showOpenDialog((Stage) docsTable.getScene().getWindow());
+        File file = fileChooser.showOpenDialog(docsTable.getScene().getWindow());
+
         if (file != null) {
-            ObservableList<TableDocument> data = docsTable.getItems();
-            data.add(new TableDocument(new Document(new String[0], file.getName(), "None")));
+            Document newDoc = new Document(new String[0], file.getName(), "None", file);
+            TableDocument forTable = new TableDocument(newDoc);
+            docsTable.getItems().add(forTable);
         }
     }
 
@@ -122,21 +123,85 @@ public class ReviewScreen {
 
     @FXML
     private void filter(ActionEvent event) throws Exception {
-        for ()
+        searchingProgressLabel.setVisible(true);
+        String searchText = filterTextBox.getText();
+        List<TableDocument> docsWithNoResults = new ArrayList<>();
 
+        Task searchPDFTask = new Task<Void>() {
+            @Override
+            public Void call() throws Exception {
+                for (TableDocument doc : docsTable.getItems()) {
+                    String path = doc.getFile().getAbsolutePath();
+                    FindTextInRectangle extract = new FindTextInRectangle(path);
 
+                    boolean hit = false;
 
-        String path = "C:\\Users\\David\\Desktop\\eric.pdf";
-        FindTextInRectangle extract = new FindTextInRectangle(path);
+                    try {
+                        if (extract.openPDFFile()) {
+                            int pageCount = extract.getPageCount();
+                            for (int page = 1; page <= pageCount; page++) {
+                                float[] resultsThisPage = extract.findTextOnPage(page, searchText, SearchType.MUTLI_LINE_RESULTS);
 
-        String search = filterTextBox.getText();
+                                if (resultsThisPage.length > 0) {
+                                    hit = true;
+                                    break;
+                                }
+                            }
+                        }
+                    } catch (PdfException e) {
+                        e.printStackTrace();
+                    }
 
-        if (extract.openPDFFile()) {
-            float[] coords = extract.findTextOnPage(1, search, SearchType.MUTLI_LINE_RESULTS);
-            for (float c : coords) {
-                System.out.println(c);
+                    if (!hit) {
+                        docsWithNoResults.add(doc);
+                    }
+                }
+
+                return null;
             }
-        }
+
+            @Override
+            public void succeeded() {
+                searchingProgressLabel.setVisible(false);
+
+                if (docsWithNoResults.isEmpty()) {
+                    String message = "All documents contained a match for \"" + searchText + "\".";
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText(null);
+                    alert.setTitle("Filter results");
+                    alert.setContentText(message);
+
+                    alert.showAndWait();
+                } else {
+                    String message = "There" +
+                            (docsWithNoResults.size() == 1 ? " was " : " were ") +
+                            docsWithNoResults.size() +
+                            (docsWithNoResults.size() == 1 ? " document " : " documents ") +
+                            "with no matches for \"" +
+                            searchText +
+                            "\". Would you like to delete" +
+                            (docsWithNoResults.size() == 1 ? " this" : " these") +
+                            (docsWithNoResults.size() == 1 ? " document " : " documents ") +
+                            "from the review?";
+
+                    Alert confirmDelete = new Alert(Alert.AlertType.CONFIRMATION);
+                    confirmDelete.setHeaderText(null);
+                    confirmDelete.setTitle("Filter results");
+                    confirmDelete.setContentText(message);
+
+                    confirmDelete.showAndWait().ifPresent(response -> {
+                        if (response == ButtonType.OK) {
+                            for (TableDocument doc : docsWithNoResults) {
+                                docsTable.getItems().remove(doc);
+                            }
+                        }
+                    });
+                }
+            }
+        };
+
+        (new Thread(searchPDFTask)).start();
     }
 
     /**
@@ -147,12 +212,14 @@ public class ReviewScreen {
      */
     public class TableDocument {
 
+        private File file;
         private SimpleStringProperty authorsString;
         private SimpleStringProperty title;
         private SimpleStringProperty year;
         private SimpleBooleanProperty selected;
 
         TableDocument(Document doc) {
+            file = doc.getFile();
             authorsString = new SimpleStringProperty(doc.getAuthorsString());
             title = new SimpleStringProperty(doc.getTitle());
             year = new SimpleStringProperty(doc.getYear());
@@ -165,6 +232,10 @@ public class ReviewScreen {
                     selectedDocs.remove(TableDocument.this);
                 }
             });
+        }
+
+        File getFile() {
+            return file;
         }
 
         // These function are necessary for the cell value factories for each
