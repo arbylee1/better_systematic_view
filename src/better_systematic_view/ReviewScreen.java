@@ -5,11 +5,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -19,11 +16,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+import org.jpedal.examples.text.FindTextInRectangle;
+import org.jpedal.grouping.SearchType;
+
 public class ReviewScreen {
 
     @FXML private TableView<TableDocument> docsTable;
     @FXML private Label reviewLabel;
     @FXML private CheckBox selectAllCheckBox;
+    @FXML private TextField filterTextBox;
 
     private static final String CONFIRM_DELETE_TITLE = "Delete files";
     private static final String CONFIRM_DELETE = "Are you sure you want to delete these files from the review?";
@@ -117,6 +118,25 @@ public class ReviewScreen {
     @FXML
     private void exportToExcel(ActionEvent event) {
 
+    }
+
+    @FXML
+    private void filter(ActionEvent event) throws Exception {
+        for ()
+
+
+
+        String path = "C:\\Users\\David\\Desktop\\eric.pdf";
+        FindTextInRectangle extract = new FindTextInRectangle(path);
+
+        String search = filterTextBox.getText();
+
+        if (extract.openPDFFile()) {
+            float[] coords = extract.findTextOnPage(1, search, SearchType.MUTLI_LINE_RESULTS);
+            for (float c : coords) {
+                System.out.println(c);
+            }
+        }
     }
 
     /**

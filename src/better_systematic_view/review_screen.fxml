@@ -31,7 +31,8 @@
 						<HBox prefWidth="20" />
 
 						<Label text="Filter: " />
-						<TextField prefWidth="150" />
+						<TextField fx:id="filterTextBox" prefWidth="150" />
+						<Button text="Search" onAction="#filter"/>
 					</HBox>
 				</HBox>
 
