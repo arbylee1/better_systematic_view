@@ -33,7 +33,7 @@
 						<Label text="Filter: " />
 						<TextField fx:id="filterTextBox" prefWidth="150" />
 						<Button text="Search" onAction="#filter"/>
-						<Label fx:id="searchingProgressLabel" text="Searching..." visible="false"/>
+                        <ProgressBar fx:id="filterProgressBar" visible="false"/>
 					</HBox>
 				</HBox>
 

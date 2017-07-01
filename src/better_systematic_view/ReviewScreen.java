@@ -23,7 +23,7 @@ public class ReviewScreen {
     @FXML private Label reviewLabel;
     @FXML private CheckBox selectAllCheckBox;
     @FXML private TextField filterTextBox;
-    @FXML private Label searchingProgressLabel;
+    @FXML private ProgressBar filterProgressBar;
 
     private static final String CONFIRM_DELETE_TITLE = "Delete files";
     private static final String CONFIRM_DELETE = "Are you sure you want to delete these files from the review?";
@@ -123,14 +123,23 @@ public class ReviewScreen {
 
     @FXML
     private void filter(ActionEvent event) throws Exception {
-        searchingProgressLabel.setVisible(true);
-        String searchText = filterTextBox.getText();
+        String searchText = filterTextBox.getText().trim();
+
+        if (searchText.isEmpty()) {
+            return;
+        }
+
         List<TableDocument> docsWithNoResults = new ArrayList<>();
 
         Task searchPDFTask = new Task<Void>() {
             @Override
             public Void call() throws Exception {
+                int numberOfDocs = docsTable.getItems().size();
+                int docIndex = 0;
+
                 for (TableDocument doc : docsTable.getItems()) {
+                    this.updateProgress(docIndex++, numberOfDocs);
+
                     String path = doc.getFile().getAbsolutePath();
                     FindTextInRectangle extract = new FindTextInRectangle(path);
 
@@ -138,8 +147,7 @@ public class ReviewScreen {
 
                     try {
                         if (extract.openPDFFile()) {
-                            int pageCount = extract.getPageCount();
-                            for (int page = 1; page <= pageCount; page++) {
+                            for (int page = 1; page <= extract.getPageCount(); page++) {
                                 float[] resultsThisPage = extract.findTextOnPage(page, searchText, SearchType.MUTLI_LINE_RESULTS);
 
                                 if (resultsThisPage.length > 0) {
@@ -162,7 +170,7 @@ public class ReviewScreen {
 
             @Override
             public void succeeded() {
-                searchingProgressLabel.setVisible(false);
+                filterProgressBar.setVisible(false);
 
                 if (docsWithNoResults.isEmpty()) {
                     String message = "All documents contained a match for \"" + searchText + "\".";
@@ -200,6 +208,9 @@ public class ReviewScreen {
                 }
             }
         };
+
+        filterProgressBar.progressProperty().bind(searchPDFTask.progressProperty());
+        filterProgressBar.setVisible(true);
 
         (new Thread(searchPDFTask)).start();
     }

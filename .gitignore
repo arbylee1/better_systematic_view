@@ -25,6 +25,7 @@ hs_err_pid*
 
 better_systematic_view.iml
 
+lib/*
 .idea/*
 out/*
 .idea/workspace.xml
