@@ -2,7 +2,6 @@ package better_systematic_view;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -12,10 +11,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.jpedal.examples.text.FindTextInRectangle;
-import org.jpedal.exception.PdfException;
-import org.jpedal.grouping.SearchType;
 
 public class ReviewScreen {
 
@@ -27,10 +22,11 @@ public class ReviewScreen {
 
     private static final String CONFIRM_DELETE_TITLE = "Delete files";
     private static final String CONFIRM_DELETE = "Are you sure you want to delete these files from the review?";
+    private static final String FILTER_RESULT_TITLE = "Filter results";
 
     private static String labelText;
     private List<TableDocument> selectedDocs = new ArrayList<>();
-
+    private PdfFilterService filterService;
     private final FileChooser fileChooser = new FileChooser();
 
     public void setDocuments(Collection<Document> docs) {
@@ -57,9 +53,53 @@ public class ReviewScreen {
         selectedDocs.clear();
     }
 
+    private void onFilterCompleted() {
+        filterProgressBar.setVisible(false);
+        List<TableDocument> docsWithNoResults = filterService.getValue();
+        String searchText = filterService.getSearchText();
+
+        if (docsWithNoResults.isEmpty()) {
+            String message = "All documents contained a match for \"" + searchText + "\".";
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(null);
+            alert.setTitle(FILTER_RESULT_TITLE);
+            alert.setContentText(message);
+
+            alert.showAndWait();
+        } else {
+            String message = "There" +
+                    (docsWithNoResults.size() == 1 ? " was " : " were ") +
+                    docsWithNoResults.size() +
+                    (docsWithNoResults.size() == 1 ? " document " : " documents ") +
+                    "with no matches for \"" +
+                    searchText +
+                    "\". Would you like to delete" +
+                    (docsWithNoResults.size() == 1 ? " this" : " these") +
+                    (docsWithNoResults.size() == 1 ? " document " : " documents ") +
+                    "from the review?";
+
+            Alert confirmDelete = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmDelete.setHeaderText(null);
+            confirmDelete.setTitle(FILTER_RESULT_TITLE);
+            confirmDelete.setContentText(message);
+
+            confirmDelete.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    for (TableDocument doc : docsWithNoResults) {
+                        docsTable.getItems().remove(doc);
+                    }
+                }
+            });
+        }
+    }
+
     @FXML
     public void initialize() {
         reviewLabel.setText(labelText);
+        filterService = new PdfFilterService();
+        filterService.setOnSucceeded(event -> onFilterCompleted());
+        filterProgressBar.progressProperty().bind(filterService.progressProperty());
     }
 
     @FXML
@@ -123,96 +163,21 @@ public class ReviewScreen {
 
     @FXML
     private void filter(ActionEvent event) throws Exception {
+        if (filterService.isRunning()) {
+            return;
+        }
+
         String searchText = filterTextBox.getText().trim();
 
         if (searchText.isEmpty()) {
             return;
         }
 
-        List<TableDocument> docsWithNoResults = new ArrayList<>();
-
-        Task searchPDFTask = new Task<Void>() {
-            @Override
-            public Void call() throws Exception {
-                int numberOfDocs = docsTable.getItems().size();
-                int docIndex = 0;
-
-                for (TableDocument doc : docsTable.getItems()) {
-                    this.updateProgress(docIndex++, numberOfDocs);
-
-                    String path = doc.getFile().getAbsolutePath();
-                    FindTextInRectangle extract = new FindTextInRectangle(path);
-
-                    boolean hit = false;
-
-                    try {
-                        if (extract.openPDFFile()) {
-                            for (int page = 1; page <= extract.getPageCount(); page++) {
-                                float[] resultsThisPage = extract.findTextOnPage(page, searchText, SearchType.MUTLI_LINE_RESULTS);
-
-                                if (resultsThisPage.length > 0) {
-                                    hit = true;
-                                    break;
-                                }
-                            }
-                        }
-                    } catch (PdfException e) {
-                        e.printStackTrace();
-                    }
-
-                    if (!hit) {
-                        docsWithNoResults.add(doc);
-                    }
-                }
-
-                return null;
-            }
-
-            @Override
-            public void succeeded() {
-                filterProgressBar.setVisible(false);
-
-                if (docsWithNoResults.isEmpty()) {
-                    String message = "All documents contained a match for \"" + searchText + "\".";
-
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setHeaderText(null);
-                    alert.setTitle("Filter results");
-                    alert.setContentText(message);
-
-                    alert.showAndWait();
-                } else {
-                    String message = "There" +
-                            (docsWithNoResults.size() == 1 ? " was " : " were ") +
-                            docsWithNoResults.size() +
-                            (docsWithNoResults.size() == 1 ? " document " : " documents ") +
-                            "with no matches for \"" +
-                            searchText +
-                            "\". Would you like to delete" +
-                            (docsWithNoResults.size() == 1 ? " this" : " these") +
-                            (docsWithNoResults.size() == 1 ? " document " : " documents ") +
-                            "from the review?";
-
-                    Alert confirmDelete = new Alert(Alert.AlertType.CONFIRMATION);
-                    confirmDelete.setHeaderText(null);
-                    confirmDelete.setTitle("Filter results");
-                    confirmDelete.setContentText(message);
-
-                    confirmDelete.showAndWait().ifPresent(response -> {
-                        if (response == ButtonType.OK) {
-                            for (TableDocument doc : docsWithNoResults) {
-                                docsTable.getItems().remove(doc);
-                            }
-                        }
-                    });
-                }
-            }
-        };
-
-        filterProgressBar.progressProperty().bind(searchPDFTask.progressProperty());
         filterProgressBar.setVisible(true);
-
-        (new Thread(searchPDFTask)).start();
+        filterService.setDocs(docsTable.getItems());
+        filterService.setSearchText(searchText);
+        filterService.reset();
+        filterService.start();
     }
 
     /**
