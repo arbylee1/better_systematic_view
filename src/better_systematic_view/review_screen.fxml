@@ -18,15 +18,15 @@
                 <HBox prefHeight="30">
                     <HBox alignment="center">
                         <HBox prefWidth="10" />
-                        <Button onAction="#includeCheckedDocs" />
-                        <Button onAction="#excludeCheckedDocs" />
-                        <Button onAction="#confirmDelete" />
+                        <Button id="includeDoc" onAction="#includeCheckedDocs" />
+                        <Button id="excludeDoc" onAction="#excludeCheckedDocs" />
+                        <Button id="deleteDoc" onAction="#confirmDelete" />
                         <HBox prefWidth="10" />
-                        <Button onAction="#addDocument" />
-                        <Button onAction="#importDocuments" />
-                        <Button onAction="#exportDocuments" />
+                        <Button id="addDoc" onAction="#addDocument" />
+                        <Button id="importDoc" onAction="#importDocuments" />
+                        <Button id="exportDoc" onAction="#exportDocuments" />
                         <HBox prefWidth="10" />
-                        <Button onAction="#exportToExcel" />
+                        <Button id="exportToExcel" onAction="#exportToExcel" />
                         <HBox prefWidth="20" />
                         <Label text="Filter: " />
                         <TextField fx:id="filterTextBox" prefWidth="150" />
