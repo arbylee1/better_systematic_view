@@ -2,15 +2,24 @@ package better_systematic_view;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.FileChooser;
+import javafx.stage.*;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 
 public class ReviewScreen {
 
@@ -94,6 +103,24 @@ public class ReviewScreen {
         }
     }
 
+//    private void extractPDFText(Document doc) {
+//        String docPath = doc.getFile().getAbsolutePath();
+//        String textPath = docPath.replace(".pdf", ".txt");
+//        File textFile = new File(textPath);
+//
+//        try {
+//            PDDocument pdf = PDDocument.load(doc.getFile());
+//            FileWriter textWriter = new FileWriter(textFile);
+//            PDFTextStripper textStripper = new PDFTextStripper();
+//            textStripper.writeText(pdf, textWriter);
+//            textWriter.close();
+//            pdf.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+
     @FXML
     public void initialize() {
         reviewLabel.setText(labelText);
@@ -136,14 +163,39 @@ public class ReviewScreen {
     }
 
     @FXML
-    private void addDocument(ActionEvent event) {
+    private void addDocument(ActionEvent event) throws IOException {
         File file = fileChooser.showOpenDialog(docsTable.getScene().getWindow());
 
-        if (file != null) {
+        if (file == null) {
+            return;
+        }
+
+        Popup progressPopup = new Popup();
+        Parent root = FXMLLoader.load(getClass().getResource("add_file_progress.fxml"));
+        progressPopup.getContent().add(root);
+        progressPopup.setHideOnEscape(false);
+
+        // There is no way to measure the progress of Apache's text stripper.
+        // Setting the progress to a negative number puts the progress bar in
+        // the "indeterminate" state, where it just goes back and forth to show
+        // that work is being done.
+        ProgressBar progressBar = (ProgressBar) root.lookup("#progressBar");
+        progressBar.setProgress(-1);
+
+        TextExtractionTask textExtractor = new TextExtractionTask();
+        textExtractor.setPdfFile(file);
+        textExtractor.setOnFailed(fail -> progressPopup.hide());
+        textExtractor.setOnSucceeded(success -> {
+            progressPopup.hide();
             Document newDoc = new Document(new String[0], file.getName(), "None", file);
             TableDocument forTable = new TableDocument(newDoc);
             docsTable.getItems().add(forTable);
-        }
+        });
+
+        Thread th = new Thread(textExtractor);
+        th.setDaemon(true);
+        th.start();
+        progressPopup.show(docsTable.getScene().getWindow());
     }
 
     @FXML

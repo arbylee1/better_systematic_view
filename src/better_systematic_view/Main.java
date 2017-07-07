@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("review_selection.fxml"));
         primaryStage.setTitle("A Better Systematic Review");
         Scene scene = new Scene(root, 600, 400);
