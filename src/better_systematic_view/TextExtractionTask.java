@@ -8,11 +8,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * This task extracts the text from the given PDF file and stores it in a .txt
+ * file with the same name as the PDF file in the same directory.
+ */
 public class TextExtractionTask extends Task<Void> {
 
     private File pdfFile;
 
-    public void setPdfFile(File pdfFile) {
+    public TextExtractionTask(File pdfFile) {
         this.pdfFile = pdfFile;
     }
 

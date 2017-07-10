@@ -48,6 +48,12 @@ public class ReviewScreen {
         docs.forEach(d -> docsTable.getItems().add(new TableDocument(d)));
     }
 
+    public void addFileInfoToTable(File file) {
+        Document newDoc = new Document(new String[0], file.getName(), "None", file);
+        TableDocument forTable = new TableDocument(newDoc);
+        docsTable.getItems().add(forTable);
+    }
+
     private void deleteSelectedDocuments() {
         selectAllCheckBox.setSelected(false);
 
@@ -102,24 +108,6 @@ public class ReviewScreen {
             });
         }
     }
-
-//    private void extractPDFText(Document doc) {
-//        String docPath = doc.getFile().getAbsolutePath();
-//        String textPath = docPath.replace(".pdf", ".txt");
-//        File textFile = new File(textPath);
-//
-//        try {
-//            PDDocument pdf = PDDocument.load(doc.getFile());
-//            FileWriter textWriter = new FileWriter(textFile);
-//            PDFTextStripper textStripper = new PDFTextStripper();
-//            textStripper.writeText(pdf, textWriter);
-//            textWriter.close();
-//            pdf.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 
     @FXML
     public void initialize() {
@@ -182,14 +170,11 @@ public class ReviewScreen {
         ProgressBar progressBar = (ProgressBar) root.lookup("#progressBar");
         progressBar.setProgress(-1);
 
-        TextExtractionTask textExtractor = new TextExtractionTask();
-        textExtractor.setPdfFile(file);
+        TextExtractionTask textExtractor = new TextExtractionTask(file);
         textExtractor.setOnFailed(fail -> progressPopup.hide());
         textExtractor.setOnSucceeded(success -> {
             progressPopup.hide();
-            Document newDoc = new Document(new String[0], file.getName(), "None", file);
-            TableDocument forTable = new TableDocument(newDoc);
-            docsTable.getItems().add(forTable);
+            addFileInfoToTable(file);
         });
 
         Thread th = new Thread(textExtractor);
