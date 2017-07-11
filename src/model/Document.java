@@ -1,4 +1,4 @@
-package better_systematic_view;
+package model;
 
 import java.io.File;
 import java.util.Arrays;
@@ -11,7 +11,7 @@ public class Document {
     private String authorsString;
     private File file;
 
-    Document(String[] authors, String title, String year, File file) {
+    public Document(String[] authors, String title, String year, File file) {
         this.authors = authors;
         this.title = title;
         this.year = year;

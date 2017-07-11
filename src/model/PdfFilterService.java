@@ -1,4 +1,6 @@
-package better_systematic_view;
+package model;
+
+import controller.ReviewScreen;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;

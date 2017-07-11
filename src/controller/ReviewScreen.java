@@ -1,5 +1,7 @@
-package better_systematic_view;
+package controller;
 
+import model.PdfFilterService;
+import model.Document;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.concurrent.Task;
@@ -247,7 +249,7 @@ public class ReviewScreen {
             });
         }
 
-        File getFile() {
+        public File getFile() {
             return file;
         }
 
