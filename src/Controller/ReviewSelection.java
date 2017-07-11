@@ -1,5 +1,7 @@
-package better_systematic_view;
+package Controller;
 
+
+import Model.Review;
 import javafx.fxml.FXML;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -37,9 +39,8 @@ public class ReviewSelection {
 
     @FXML
     private void handleOpenReview(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("review_screen.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../View/review_screen.fxml"));
         Parent root = loader.load();
-
         Scene scene = new Scene(root, 800, 600);
         Stage stage = (Stage) table.getScene().getWindow();
         stage.setScene(scene);
