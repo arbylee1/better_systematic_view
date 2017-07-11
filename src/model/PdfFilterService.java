@@ -1,6 +1,6 @@
-package Model;
+package model;
 
-import Controller.ReviewScreen;
+import controller.ReviewScreen;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;

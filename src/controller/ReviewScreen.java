@@ -1,7 +1,7 @@
-package Controller;
+package controller;
 
-import Model.PdfFilterService;
-import Model.Document;
+import model.PdfFilterService;
+import model.Document;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
