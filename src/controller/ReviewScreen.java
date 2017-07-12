@@ -1,5 +1,6 @@
 package controller;
 
+import better_systematic_view.TextExtractionTask;
 import model.PdfFilterService;
 import model.Document;
 import javafx.beans.property.SimpleBooleanProperty;
