@@ -1,4 +1,4 @@
-package better_systematic_view;
+package com.better_systematic_review.model;
 
 import javafx.concurrent.Task;
 import org.apache.pdfbox.pdmodel.PDDocument;

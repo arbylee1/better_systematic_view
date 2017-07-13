@@ -1,4 +1,4 @@
-package model;
+package com.better_systematic_review.model;
 
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;

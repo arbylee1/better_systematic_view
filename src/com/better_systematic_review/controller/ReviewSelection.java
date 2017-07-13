@@ -1,7 +1,7 @@
-package controller;
+package com.better_systematic_review.controller;
 
 
-import model.Review;
+import com.better_systematic_review.model.Review;
 import javafx.fxml.FXML;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

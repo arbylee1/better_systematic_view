@@ -1,4 +1,4 @@
-package model;
+package com.better_systematic_review.model;
 
 import java.io.File;
 import java.util.Arrays;

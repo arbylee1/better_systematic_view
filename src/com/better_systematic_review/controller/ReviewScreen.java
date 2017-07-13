@@ -1,28 +1,22 @@
-package controller;
+package com.better_systematic_review.controller;
 
-import better_systematic_view.TextExtractionTask;
-import model.PdfFilterService;
-import model.Document;
+import com.better_systematic_review.model.TextExtractionTask;
+import com.better_systematic_review.model.PdfFilterService;
+import com.better_systematic_review.model.Document;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.*;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
 
 public class ReviewScreen {
 
@@ -162,7 +156,7 @@ public class ReviewScreen {
         }
 
         Popup progressPopup = new Popup();
-        Parent root = FXMLLoader.load(getClass().getResource("add_file_progress.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../view/add_file_progress.fxml"));
         progressPopup.getContent().add(root);
         progressPopup.setHideOnEscape(false);
 

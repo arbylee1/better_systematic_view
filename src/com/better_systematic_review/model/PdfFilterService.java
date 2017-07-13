@@ -1,6 +1,6 @@
-package model;
+package com.better_systematic_review.model;
 
-import controller.ReviewScreen;
+import com.better_systematic_review.controller.ReviewScreen;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;

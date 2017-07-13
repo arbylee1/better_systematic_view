@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import model.CheckBoxCellFactory?>
+<?import com.better_systematic_review.model.CheckBoxCellFactory?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
@@ -10,7 +10,7 @@
 
 <GridPane prefHeight="600.0" prefWidth="800.0"
           xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="controller.ReviewScreen"
+          fx:controller="com.better_systematic_review.controller.ReviewScreen"
           stylesheets="@review_screen_ui.css">
     <TabPane tabClosingPolicy="UNAVAILABLE" prefHeight="600" prefWidth="800" GridPane.rowIndex="1">
         <Tab text="Documents">
