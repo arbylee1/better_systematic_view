@@ -43,7 +43,7 @@
                     <columns>
                         <TableColumn prefWidth="30">
                             <graphic>
-                                <CheckBox fx:id="selectAllCheckBox" onAction="#selectAllDocuments" disable="true" />
+                                <CheckBox fx:id="selectAllCheckBox" onAction="#selectAllDocuments" />
                             </graphic>
                             <cellFactory>
                                 <CheckBoxCellFactory />
