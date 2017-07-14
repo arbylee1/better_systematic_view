@@ -9,7 +9,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.*;
 
 import java.io.File;
@@ -212,6 +215,18 @@ public class ReviewScreen {
         filterService.setSearchText(searchText);
         filterService.reset();
         filterService.start();
+    }
+
+    @FXML
+    private void editReviewCriteria(ActionEvent event) {
+        final Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner((Stage) docsTable.getScene().getWindow());
+        VBox dialogVbox = new VBox(20);
+        dialogVbox.getChildren().add(new Text("This screen will be for editing criteria."));
+        Scene dialogScene = new Scene(dialogVbox, 300, 200);
+        dialog.setScene(dialogScene);
+        dialog.show();
     }
 
     /**
