@@ -3,6 +3,7 @@ package com.better_systematic_review.controller;
 import com.better_systematic_review.model.TextExtractionTask;
 import com.better_systematic_review.model.PdfSearchService;
 import com.better_systematic_review.model.Document;
+
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -11,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.stage.*;
+import javafx.stage.Popup;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,11 +26,13 @@ public class ReviewScreen {
     @FXML private CheckBox selectAllCheckBox;
     @FXML private TextField filterTextBox;
     @FXML private ProgressBar filterProgressBar;
+    @FXML private CheckBox ignoreCaseCheckBox;
     @FXML private CheckBox regexModeCheckBox;
 
     private static final String CONFIRM_DELETE_TITLE = "Delete files";
     private static final String CONFIRM_DELETE = "Are you sure you want to delete these files from the review?";
     private static final String FILTER_RESULT_TITLE = "Filter results";
+    private static final String DELETE_WHILE_SEARCHING = "You can't delete documents while they are being searched.";
 
     private static String labelText;
     private List<TableDocument> selectedDocs = new ArrayList<>();
@@ -52,6 +56,15 @@ public class ReviewScreen {
     }
 
     private void deleteSelectedDocuments() {
+        if (filterService.isRunning()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText(null);
+            alert.setTitle(FILTER_RESULT_TITLE);
+            alert.setContentText(DELETE_WHILE_SEARCHING);
+            alert.showAndWait();
+            return;
+        }
+
         selectAllCheckBox.setSelected(false);
 
         if (selectedDocs.size() == docsTable.getItems().size()) {
@@ -219,9 +232,18 @@ public class ReviewScreen {
         filterProgressBar.setVisible(true);
         filterService.setDocs(docsTable.getItems());
         filterService.setSearchText(searchText);
-        filterService.setRegexMode(regexModeCheckBox.isSelected());
         filterService.reset();
         filterService.start();
+    }
+
+    @FXML
+    public void ignoreCaseChecked(ActionEvent event) {
+        filterService.setIgnoreCase(ignoreCaseCheckBox.isSelected());
+    }
+
+    @FXML
+    public void regexModeChecked(ActionEvent event) {
+        filterService.setRegexMode(regexModeCheckBox.isSelected());
     }
 
     /**

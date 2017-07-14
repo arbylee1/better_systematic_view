@@ -17,6 +17,8 @@ public class PdfSearchService extends Service<HashMap<ReviewScreen.TableDocument
 
     private List<ReviewScreen.TableDocument> docs;
     private String searchText;
+    private Pattern pattern;
+    private boolean ignoreCase;
     private boolean regexMode;
 
     public void setDocs(List<ReviewScreen.TableDocument> docs) {
@@ -25,6 +27,10 @@ public class PdfSearchService extends Service<HashMap<ReviewScreen.TableDocument
 
     public void setSearchText(String searchText) {
         this.searchText = searchText;
+    }
+
+    public void setIgnoreCase(boolean ignoreCase) {
+        this.ignoreCase = ignoreCase;
     }
 
     public void setRegexMode(boolean regexMode) {
@@ -42,20 +48,13 @@ public class PdfSearchService extends Service<HashMap<ReviewScreen.TableDocument
             public HashMap<ReviewScreen.TableDocument, Integer> call() throws Exception {
                 HashMap<ReviewScreen.TableDocument, Integer> results = new HashMap<>();
                 updateProgress(0, 1);
-                int docIndex = 0;
+                compilePattern();
 
+                int docIndex = 0;
                 for (ReviewScreen.TableDocument tableDoc : docs) {
                     results.put(tableDoc, 0);
 
                     try {
-                        Pattern pattern;
-
-                        if (regexMode) {
-                            pattern = Pattern.compile(searchText);
-                        } else {
-                            pattern = Pattern.compile(searchText, Pattern.LITERAL);
-                        }
-
                         String text = documentAsString(tableDoc.getDocument());
                         Matcher matcher = pattern.matcher(text);
 
@@ -72,6 +71,24 @@ public class PdfSearchService extends Service<HashMap<ReviewScreen.TableDocument
                 return results;
             }
         };
+    }
+
+    private void compilePattern() {
+        int flags = 0;
+
+        if (ignoreCase) {
+            flags |= Pattern.CASE_INSENSITIVE;
+        }
+
+        if (!regexMode) {
+            flags |= Pattern.LITERAL;
+        }
+
+        if (flags == 0) {
+            pattern = Pattern.compile(searchText);
+        } else {
+            pattern = Pattern.compile(searchText, flags);
+        }
     }
 
     private String documentAsString(Document doc) throws IOException {

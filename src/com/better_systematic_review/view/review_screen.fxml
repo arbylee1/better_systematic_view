@@ -17,55 +17,58 @@
             <VBox>
                 <HBox prefHeight="30">
                     <HBox alignment="center">
-                        <HBox prefWidth="10" />
-                        <Button id="includeDoc" onAction="#includeCheckedDocs" />
-                        <Button id="excludeDoc" onAction="#excludeCheckedDocs" />
-                        <Button id="deleteDoc" onAction="#confirmDelete" />
-                        <HBox prefWidth="10" />
-                        <Button id="addDoc" onAction="#addDocument" />
-                        <Button id="importDoc" onAction="#importDocuments" />
-                        <Button id="exportDoc" onAction="#exportDocuments" />
-                        <HBox prefWidth="10" />
-                        <Button id="exportToExcel" onAction="#exportToExcel" />
-                        <HBox prefWidth="20" />
-                        <Label text="Filter: " />
-                        <TextField fx:id="filterTextBox" prefWidth="150" />
+                        <HBox prefWidth="10"/>
+                        <Button id="includeDoc" onAction="#includeCheckedDocs"/>
+                        <Button id="excludeDoc" onAction="#excludeCheckedDocs"/>
+                        <Button id="deleteDoc" onAction="#confirmDelete"/>
+                        <HBox prefWidth="10"/>
+                        <Button id="addDoc" onAction="#addDocument"/>
+                        <Button id="importDoc" onAction="#importDocuments"/>
+                        <Button id="exportDoc" onAction="#exportDocuments"/>
+                        <HBox prefWidth="10"/>
+                        <Button id="exportToExcel" onAction="#exportToExcel"/>
+                        <HBox prefWidth="20"/>
+                        <Label text="Filter: "/>
+                        <TextField fx:id="filterTextBox" prefWidth="150"/>
                         <Button text="Search" onAction="#filter"/>
-                        <CheckBox fx:id="regexModeCheckBox" text="Use regular expressions"/>
+                        <VBox>
+                            <CheckBox fx:id="ignoreCaseCheckBox" text="Ignore case" onAction="#ignoreCaseChecked"/>
+                            <CheckBox fx:id="regexModeCheckBox" text="Use regular expressions" onAction="#regexModeChecked"/>
+                        </VBox>
                         <ProgressBar fx:id="filterProgressBar" visible="false"/>
                     </HBox>
                 </HBox>
 
                 <TableView fx:id="docsTable" prefWidth="200.0" editable="true">
                     <items>
-                        <FXCollections fx:factory="observableArrayList" />
+                        <FXCollections fx:factory="observableArrayList"/>
                     </items>
 
                     <columns>
                         <TableColumn prefWidth="30">
                             <graphic>
-                                <CheckBox fx:id="selectAllCheckBox" onAction="#selectAllDocuments" />
+                                <CheckBox fx:id="selectAllCheckBox" onAction="#selectAllDocuments"/>
                             </graphic>
                             <cellFactory>
-                                <CheckBoxCellFactory />
+                                <CheckBoxCellFactory/>
                             </cellFactory>
                             <cellValueFactory>
-                                <PropertyValueFactory property="selected" />
+                                <PropertyValueFactory property="selected"/>
                             </cellValueFactory>
                         </TableColumn>
                         <TableColumn text="Authors" prefWidth="200">
                             <cellValueFactory>
-                                <PropertyValueFactory property="authorsString" />
+                                <PropertyValueFactory property="authorsString"/>
                             </cellValueFactory>
                         </TableColumn>
                         <TableColumn text="Titles" prefWidth="420">
                             <cellValueFactory>
-                                <PropertyValueFactory property="title" />
+                                <PropertyValueFactory property="title"/>
                             </cellValueFactory>
                         </TableColumn>
                         <TableColumn text="Year" prefWidth="150">
                             <cellValueFactory>
-                                <PropertyValueFactory property="year" />
+                                <PropertyValueFactory property="year"/>
                             </cellValueFactory>
                         </TableColumn>
                     </columns>
@@ -86,5 +89,5 @@
         </Tab>
     </TabPane>
 
-    <Label fx:id="reviewLabel" text="Label" />
+    <Label fx:id="reviewLabel" text="Label"/>
 </GridPane>
