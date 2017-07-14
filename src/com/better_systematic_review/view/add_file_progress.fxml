@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+
+<AnchorPane prefHeight="100.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/8.0.112">
+    <VBox>
+        <Label text="Adding document..."/>
+        <ProgressBar id="progressBar" layoutY="32.0" prefWidth="200.0" progress="0.0"/>
+    </VBox>
+</AnchorPane>

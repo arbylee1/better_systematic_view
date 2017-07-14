@@ -1,5 +1,6 @@
-package better_systematic_view;
+package com.better_systematic_review.model;
 
+import java.io.File;
 import java.util.Arrays;
 
 public class Document {
@@ -8,12 +9,14 @@ public class Document {
     private String title;
     private String year;
     private String authorsString;
+    private File file;
 
-    Document(String[] authors, String title, String year) {
+    public Document(String[] authors, String title, String year, File file) {
         this.authors = authors;
         this.title = title;
         this.year = year;
         this.authorsString = String.join(",", authors);
+        this.file = file;
     }
 
     public String[] getAuthors() {
@@ -30,6 +33,10 @@ public class Document {
 
     public String getAuthorsString() {
         return authorsString;
+    }
+
+    public File getFile() {
+        return file;
     }
 
     @Override

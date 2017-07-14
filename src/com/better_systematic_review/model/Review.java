@@ -1,4 +1,4 @@
-package better_systematic_view;
+package com.better_systematic_review.model;
 
 public class Review {
     private String name;

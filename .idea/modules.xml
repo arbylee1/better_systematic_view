@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/better_systematic_view.iml" filepath="$PROJECT_DIR$/better_systematic_view.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/better_systematic_view.iml" filepath="$PROJECT_DIR$/.idea/better_systematic_view.iml" />
+      <module fileurl="file://C:\Users\Porter\OneDrive\Documents\GitHub\better_systematic_view\better_systematic_view.iml" filepath="C:\Users\Porter\OneDrive\Documents\GitHub\better_systematic_view\better_systematic_view.iml" />
     </modules>
   </component>
 </project>
