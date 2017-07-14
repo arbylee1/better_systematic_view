@@ -33,6 +33,7 @@ public class ReviewScreen {
     private static final String CONFIRM_DELETE = "Are you sure you want to delete these files from the review?";
     private static final String FILTER_RESULT_TITLE = "Filter results";
     private static final String DELETE_WHILE_SEARCHING = "You can't delete documents while they are being searched.";
+    private static final String SEARCH_FAILED = "Unfortunately the search has failed. Please make sure all documents are closed.";
 
     private static String labelText;
     private List<TableDocument> selectedDocs = new ArrayList<>();
@@ -59,7 +60,6 @@ public class ReviewScreen {
         if (filterService.isRunning()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText(null);
-            alert.setTitle(FILTER_RESULT_TITLE);
             alert.setContentText(DELETE_WHILE_SEARCHING);
             alert.showAndWait();
             return;
@@ -78,7 +78,7 @@ public class ReviewScreen {
         selectedDocs.clear();
     }
 
-    private void onFilterCompleted() {
+    private void onFilterSucceeded() {
         filterProgressBar.setVisible(false);
         String searchText = filterService.getSearchText();
 
@@ -124,11 +124,19 @@ public class ReviewScreen {
         }
     }
 
+    private void onFilterFailed() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setContentText(SEARCH_FAILED);
+        alert.showAndWait();
+    }
+
     @FXML
     public void initialize() {
         reviewLabel.setText(labelText);
         filterService = new PdfSearchService();
-        filterService.setOnSucceeded(event -> onFilterCompleted());
+        filterService.setOnSucceeded(success -> onFilterSucceeded());
+        filterService.setOnFailed(fail -> onFilterFailed());
         filterProgressBar.progressProperty().bind(filterService.progressProperty());
     }
 
