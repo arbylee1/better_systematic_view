@@ -31,6 +31,7 @@
                         <Label text="Filter: " />
                         <TextField fx:id="filterTextBox" prefWidth="150" />
                         <Button text="Search" onAction="#filter"/>
+                        <CheckBox fx:id="regexModeCheckBox" text="Use regular expressions"/>
                         <ProgressBar fx:id="filterProgressBar" visible="false"/>
                     </HBox>
                 </HBox>
@@ -72,9 +73,9 @@
             </VBox>
         </Tab>
 
-        <!--<Tab text="Search">-->
+        <Tab text="Search">
 
-        <!--</Tab>-->
+        </Tab>
 
         <Tab text="Frequencies">
 

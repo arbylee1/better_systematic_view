@@ -1,7 +1,7 @@
 package com.better_systematic_review.controller;
 
 import com.better_systematic_review.model.TextExtractionTask;
-import com.better_systematic_review.model.PdfFilterService;
+import com.better_systematic_review.model.PdfSearchService;
 import com.better_systematic_review.model.Document;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -14,9 +14,8 @@ import javafx.stage.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ReviewScreen {
 
@@ -25,6 +24,7 @@ public class ReviewScreen {
     @FXML private CheckBox selectAllCheckBox;
     @FXML private TextField filterTextBox;
     @FXML private ProgressBar filterProgressBar;
+    @FXML private CheckBox regexModeCheckBox;
 
     private static final String CONFIRM_DELETE_TITLE = "Delete files";
     private static final String CONFIRM_DELETE = "Are you sure you want to delete these files from the review?";
@@ -32,7 +32,7 @@ public class ReviewScreen {
 
     private static String labelText;
     private List<TableDocument> selectedDocs = new ArrayList<>();
-    private PdfFilterService filterService;
+    private PdfSearchService filterService;
     private final FileChooser fileChooser = new FileChooser();
 
     public void setDocuments(Collection<Document> docs) {
@@ -67,8 +67,13 @@ public class ReviewScreen {
 
     private void onFilterCompleted() {
         filterProgressBar.setVisible(false);
-        List<TableDocument> docsWithNoResults = filterService.getValue();
         String searchText = filterService.getSearchText();
+
+        HashMap<TableDocument, Integer> searchResults = filterService.getValue();
+        List<TableDocument> docsWithNoResults = searchResults.entrySet().stream()
+                .filter(entry -> entry.getValue() == 0)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
 
         if (docsWithNoResults.isEmpty()) {
             String message = "All documents contained a match for \"" + searchText + "\".";
@@ -109,7 +114,7 @@ public class ReviewScreen {
     @FXML
     public void initialize() {
         reviewLabel.setText(labelText);
-        filterService = new PdfFilterService();
+        filterService = new PdfSearchService();
         filterService.setOnSucceeded(event -> onFilterCompleted());
         filterProgressBar.progressProperty().bind(filterService.progressProperty());
     }
@@ -197,6 +202,10 @@ public class ReviewScreen {
 
     @FXML
     private void filter(ActionEvent event) throws Exception {
+        if (docsTable.getItems().isEmpty()) {
+            return;
+        }
+
         if (filterService.isRunning()) {
             return;
         }
@@ -210,6 +219,7 @@ public class ReviewScreen {
         filterProgressBar.setVisible(true);
         filterService.setDocs(docsTable.getItems());
         filterService.setSearchText(searchText);
+        filterService.setRegexMode(regexModeCheckBox.isSelected());
         filterService.reset();
         filterService.start();
     }
@@ -222,17 +232,17 @@ public class ReviewScreen {
      */
     public class TableDocument {
 
-        private File file;
+        private Document document;
         private SimpleStringProperty authorsString;
         private SimpleStringProperty title;
         private SimpleStringProperty year;
         private SimpleBooleanProperty selected;
 
-        TableDocument(Document doc) {
-            file = doc.getFile();
-            authorsString = new SimpleStringProperty(doc.getAuthorsString());
-            title = new SimpleStringProperty(doc.getTitle());
-            year = new SimpleStringProperty(doc.getYear());
+        TableDocument(Document document) {
+            this.document = document;
+            authorsString = new SimpleStringProperty(document.getAuthorsString());
+            title = new SimpleStringProperty(document.getTitle());
+            year = new SimpleStringProperty(document.getYear());
             selected = new SimpleBooleanProperty(false);
 
             selected.addListener((observable, oldValue, newValue) -> {
@@ -244,8 +254,8 @@ public class ReviewScreen {
             });
         }
 
-        public File getFile() {
-            return file;
+        public Document getDocument() {
+            return document;
         }
 
         // These function are necessary for the cell value factories for each

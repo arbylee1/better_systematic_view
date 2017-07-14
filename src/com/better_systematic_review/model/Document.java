@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 public class Document {
 
+    private int hash;
     private String[] authors;
     private String title;
     private String year;
@@ -68,12 +69,13 @@ public class Document {
 
     @Override
     public int hashCode() {
-        int hash = 17;
-
-        hash = 31 * hash + Arrays.hashCode(authors);
-        hash = 31 * hash + title.hashCode();
-        hash = 31 * hash + year.hashCode();
-        hash = 31 * hash + authorsString.hashCode();
+        if (hash == 0) {
+            hash = 17;
+            hash = 31 * hash + Arrays.hashCode(authors);
+            hash = 31 * hash + title.hashCode();
+            hash = 31 * hash + year.hashCode();
+            hash = 31 * hash + authorsString.hashCode();
+        }
 
         return hash;
     }
