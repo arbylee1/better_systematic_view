@@ -84,11 +84,9 @@ public class PdfSearchService extends Service<HashMap<ReviewScreen.TableDocument
             flags |= Pattern.LITERAL;
         }
 
-        if (flags == 0) {
-            pattern = Pattern.compile(searchText);
-        } else {
-            pattern = Pattern.compile(searchText, flags);
-        }
+        pattern = (flags == 0)
+            ? Pattern.compile(searchText)
+            : Pattern.compile(searchText, flags);
     }
 
     private String documentAsString(Document doc) throws IOException {
