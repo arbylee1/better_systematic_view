@@ -8,7 +8,7 @@
 
 <AnchorPane prefHeight="100.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/8.0.112">
     <VBox>
-        <Label text="Adding document..."/>
+        <Label text="Extracting text from document..."/>
         <ProgressBar id="progressBar" layoutY="32.0" prefWidth="200.0" progress="0.0"/>
     </VBox>
 </AnchorPane>

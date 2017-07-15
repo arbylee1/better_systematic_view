@@ -80,48 +80,71 @@ public class ReviewScreen {
 
     private void onFilterSucceeded() {
         filterProgressBar.setVisible(false);
-        String searchText = filterService.getSearchText();
 
         Map<TableDocument, Integer> searchResults = filterService.getValue();
-        List<TableDocument> docsWithNoResults = searchResults.entrySet().stream()
+        String searchText = filterService.getSearchText();
+
+        long failedToReadCount = searchResults.values().stream()
+                .filter(v -> v == PdfSearchService.FILE_ERROR_FLAG)
+                .count();
+
+        if (failedToReadCount > 0) {
+            notifyFailedDocuments(failedToReadCount);
+        }
+
+        List<TableDocument> docsWithNoMatches = searchResults.entrySet().stream()
                 .filter(entry -> entry.getValue() == 0)
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
 
-        if (docsWithNoResults.isEmpty()) {
-            String message = "All documents contained a match for \"" + searchText + "\".";
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText(null);
-            alert.setTitle(FILTER_RESULT_TITLE);
-            alert.setContentText(message);
-
-            alert.showAndWait();
+        if (docsWithNoMatches.isEmpty()) {
+            notifyAllDocumentsMatched(searchText);
         } else {
-            String message = "There" +
-                    (docsWithNoResults.size() == 1 ? " was " : " were ") +
-                    docsWithNoResults.size() +
-                    (docsWithNoResults.size() == 1 ? " document " : " documents ") +
-                    "with no matches for \"" +
-                    searchText +
-                    "\". Would you like to delete" +
-                    (docsWithNoResults.size() == 1 ? " this" : " these") +
-                    (docsWithNoResults.size() == 1 ? " document " : " documents ") +
-                    "from the review?";
-
-            Alert confirmDelete = new Alert(Alert.AlertType.CONFIRMATION);
-            confirmDelete.setHeaderText(null);
-            confirmDelete.setTitle(FILTER_RESULT_TITLE);
-            confirmDelete.setContentText(message);
-
-            confirmDelete.showAndWait().ifPresent(response -> {
-                if (response == ButtonType.OK) {
-                    for (TableDocument doc : docsWithNoResults) {
-                        docsTable.getItems().remove(doc);
-                    }
-                }
-            });
+            notifyDocsWithNoMatches(searchText, docsWithNoMatches);
         }
+    }
+
+    private void notifyFailedDocuments(long failedToReadCount) {
+        String message = failedToReadCount + " documents caused an error and were not searched.";
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void notifyDocsWithNoMatches(String searchText, List<TableDocument> docsWithNoResults) {
+        String message = "There" +
+                (docsWithNoResults.size() == 1 ? " was " : " were ") +
+                docsWithNoResults.size() +
+                (docsWithNoResults.size() == 1 ? " document " : " documents ") +
+                "with no matches for \"" +
+                searchText +
+                "\". Would you like to delete" +
+                (docsWithNoResults.size() == 1 ? " this" : " these") +
+                (docsWithNoResults.size() == 1 ? " document " : " documents ") +
+                "from the review?";
+
+        Alert confirmDelete = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmDelete.setHeaderText(null);
+        confirmDelete.setTitle(FILTER_RESULT_TITLE);
+        confirmDelete.setContentText(message);
+
+        confirmDelete.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                for (TableDocument doc : docsWithNoResults) {
+                    docsTable.getItems().remove(doc);
+                }
+            }
+        });
+    }
+
+    private void notifyAllDocumentsMatched(String searchText) {
+        String message = "All documents contained a match for \"" + searchText + "\".";
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setTitle(FILTER_RESULT_TITLE);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     private void onFilterFailed() {
