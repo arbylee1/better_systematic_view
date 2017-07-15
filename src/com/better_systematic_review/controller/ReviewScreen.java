@@ -51,7 +51,7 @@ public class ReviewScreen {
     }
 
     public void addFileInfoToTable(File file) {
-        Document newDoc = new Document(new String[0], file.getName(), "None", file);
+        Document newDoc = new Document(file, file.getName(), "None", new String[0]);
         TableDocument forTable = new TableDocument(newDoc);
         docsTable.getItems().add(forTable);
     }
@@ -309,6 +309,25 @@ public class ReviewScreen {
 
         public Document getDocument() {
             return document;
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (other == null) {
+                return false;
+            }
+
+            if (!(other instanceof TableDocument)) {
+                return false;
+            }
+
+            TableDocument that = (TableDocument) other;
+            return this.document.equals(that.document);
+        }
+
+        @Override
+        public int hashCode() {
+            return document.hashCode();
         }
 
         // These function are necessary for the cell value factories for each
