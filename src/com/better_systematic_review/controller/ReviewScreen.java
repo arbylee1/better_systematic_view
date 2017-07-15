@@ -45,7 +45,7 @@ public class ReviewScreen {
             return;
         }
 
-        selectAllCheckBox.setDisable(false);
+        selectedDocs.clear();
         docsTable.getItems().clear();
         docs.forEach(d -> docsTable.getItems().add(new TableDocument(d)));
     }
@@ -82,7 +82,7 @@ public class ReviewScreen {
         filterProgressBar.setVisible(false);
         String searchText = filterService.getSearchText();
 
-        HashMap<TableDocument, Integer> searchResults = filterService.getValue();
+        Map<TableDocument, Integer> searchResults = filterService.getValue();
         List<TableDocument> docsWithNoResults = searchResults.entrySet().stream()
                 .filter(entry -> entry.getValue() == 0)
                 .map(Map.Entry::getKey)

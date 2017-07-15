@@ -10,16 +10,22 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-public class PdfSearchService extends Service<HashMap<ReviewScreen.TableDocument, Integer>> {
+public class PdfSearchService extends Service<Map<ReviewScreen.TableDocument, Integer>> {
 
     private List<ReviewScreen.TableDocument> docs;
     private String searchText;
     private Pattern pattern;
     private boolean ignoreCase;
     private boolean regexMode;
+
+    public static final int FILE_ERROR_FLAG = -1;
 
     public void setDocs(List<ReviewScreen.TableDocument> docs) {
         this.docs = docs;
@@ -42,35 +48,42 @@ public class PdfSearchService extends Service<HashMap<ReviewScreen.TableDocument
     }
 
     @Override
-    protected Task<HashMap<ReviewScreen.TableDocument, Integer>> createTask() {
-        return new Task<HashMap<ReviewScreen.TableDocument, Integer>>() {
+    protected Task<Map<ReviewScreen.TableDocument, Integer>> createTask() {
+        return new Task<Map<ReviewScreen.TableDocument, Integer>>() {
             @Override
-            public HashMap<ReviewScreen.TableDocument, Integer> call() throws Exception {
+            public Map<ReviewScreen.TableDocument, Integer> call() throws Exception {
                 HashMap<ReviewScreen.TableDocument, Integer> results = new HashMap<>();
                 updateProgress(0, 1);
                 compilePattern();
 
                 int docIndex = 0;
                 for (ReviewScreen.TableDocument tableDoc : docs) {
-                    results.put(tableDoc, 0);
-
-                    try {
-                        String text = documentAsString(tableDoc.getDocument());
-                        Matcher matcher = pattern.matcher(text);
-
-                        while (matcher.find()) {
-                            results.put(tableDoc, results.get(tableDoc) + 1);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
+                    results.put(tableDoc, countMatches(tableDoc));
                     updateProgress(++docIndex, docs.size());
                 }
 
                 return results;
             }
         };
+    }
+
+    private int countMatches(ReviewScreen.TableDocument doc) {
+        int result = 0;
+        String text;
+
+        try {
+            text = documentAsString(doc.getDocument());
+        } catch (IOException e) {
+            return FILE_ERROR_FLAG;
+        }
+
+        Matcher matcher = pattern.matcher(text);
+
+        while (matcher.find()) {
+            result++;
+        }
+
+        return result;
     }
 
     private void compilePattern() {
