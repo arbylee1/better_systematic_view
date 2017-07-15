@@ -1,8 +1,8 @@
 package com.better_systematic_review.controller;
 
-import com.better_systematic_review.model.TextExtractionTask;
-import com.better_systematic_review.model.PdfSearchService;
 import com.better_systematic_review.model.Document;
+import com.better_systematic_review.model.PdfSearchService;
+import com.better_systematic_review.model.TextExtractionTask;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,12 +11,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.stage.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ReviewScreen {
@@ -41,10 +44,6 @@ public class ReviewScreen {
     private final FileChooser fileChooser = new FileChooser();
 
     public void setDocuments(Collection<Document> docs) {
-        if (docs.isEmpty()) {
-            return;
-        }
-
         selectedDocs.clear();
         docsTable.getItems().clear();
         docs.forEach(d -> docsTable.getItems().add(new TableDocument(d)));
@@ -319,6 +318,10 @@ public class ReviewScreen {
 
             if (!(other instanceof TableDocument)) {
                 return false;
+            }
+
+            if (this == other) {
+                return true;
             }
 
             TableDocument that = (TableDocument) other;

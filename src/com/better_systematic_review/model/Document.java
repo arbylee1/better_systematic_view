@@ -50,6 +50,10 @@ public class Document {
             return false;
         }
 
+        if (this == other) {
+            return true;
+        }
+
         Document that = (Document) other;
 
         return this.file.equals(that.file)

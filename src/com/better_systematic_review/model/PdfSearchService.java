@@ -11,12 +11,14 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
+/**
+ * This class searches through the text of multiple PDFs and maps each one to
+ * the number of matches found for the search text. It supports ignoring case
+ * and searching with regular expressions.
+ */
 public class PdfSearchService extends Service<Map<ReviewScreen.TableDocument, Integer>> {
 
     private List<ReviewScreen.TableDocument> docs;
@@ -59,7 +61,7 @@ public class PdfSearchService extends Service<Map<ReviewScreen.TableDocument, In
                 int docIndex = 0;
                 for (ReviewScreen.TableDocument tableDoc : docs) {
                     results.put(tableDoc, countMatches(tableDoc));
-                    updateProgress(++docIndex, docs.size());
+                    updateProgress(++docIndex, docs.size()); // For progress bar
                 }
 
                 return results;
@@ -67,6 +69,14 @@ public class PdfSearchService extends Service<Map<ReviewScreen.TableDocument, In
         };
     }
 
+    /**
+     * Counts the number of matches for the current search text in the text of
+     * the given document.
+     *
+     * @param doc The document
+     *
+     * @return The number of matches for the search text in the document
+     */
     private int countMatches(ReviewScreen.TableDocument doc) {
         int result = 0;
         String text;
@@ -86,6 +96,10 @@ public class PdfSearchService extends Service<Map<ReviewScreen.TableDocument, In
         return result;
     }
 
+    /**
+     * Compiles the current search text into a Pattern that can be reused for
+     * each document.
+     */
     private void compilePattern() {
         int flags = 0;
 
@@ -97,11 +111,19 @@ public class PdfSearchService extends Service<Map<ReviewScreen.TableDocument, In
             flags |= Pattern.LITERAL;
         }
 
-        pattern = (flags == 0)
-            ? Pattern.compile(searchText)
-            : Pattern.compile(searchText, flags);
+        pattern = Pattern.compile(searchText, flags);
     }
 
+    /**
+     * Goes to the .txt file containing the text of the given document and
+     * returns the contents of the file as a string.
+     *
+     * @param doc The document
+     *
+     * @return The text of the document as a string
+     *
+     * @throws IOException
+     */
     private String documentAsString(Document doc) throws IOException {
         String pathToPDF = doc.getFile().getAbsolutePath();
         String pathToTXT = pathToPDF.replace(".pdf",  ".txt");
