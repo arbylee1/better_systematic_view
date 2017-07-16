@@ -218,14 +218,15 @@ public class ReviewScreen {
     }
 
     @FXML
-    private void editReviewCriteria(ActionEvent event) {
+    private void editReviewCriteria(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/criteria.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 600, 400);
+
         final Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner((Stage) docsTable.getScene().getWindow());
-        VBox dialogVbox = new VBox(20);
-        dialogVbox.getChildren().add(new Text("This screen will be for editing criteria."));
-        Scene dialogScene = new Scene(dialogVbox, 300, 200);
-        dialog.setScene(dialogScene);
+        dialog.setScene(scene);
         dialog.show();
     }
 
