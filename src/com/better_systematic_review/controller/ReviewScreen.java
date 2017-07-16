@@ -16,10 +16,7 @@ import javafx.stage.Popup;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ReviewScreen {
@@ -39,7 +36,7 @@ public class ReviewScreen {
     private static final String SEARCH_FAILED = "Unfortunately the search has failed. Please make sure all documents are closed.";
 
     private static String labelText;
-    private List<TableDocument> selectedDocs = new ArrayList<>();
+    private Set<TableDocument> selectedDocs = new HashSet<>();
     private PdfSearchService filterService;
     private final FileChooser fileChooser = new FileChooser();
 
@@ -222,10 +219,14 @@ public class ReviewScreen {
             addFileInfoToTable(file);
         });
 
-        Thread th = new Thread(textExtractor);
+        progressPopup.show(docsTable.getScene().getWindow());
+        startDaemonThread(textExtractor);
+    }
+
+    private void startDaemonThread(Runnable target) {
+        Thread th = new Thread(target);
         th.setDaemon(true);
         th.start();
-        progressPopup.show(docsTable.getScene().getWindow());
     }
 
     @FXML
@@ -245,11 +246,11 @@ public class ReviewScreen {
 
     @FXML
     private void filter(ActionEvent event) throws Exception {
-        if (docsTable.getItems().isEmpty()) {
+        if (filterService.isRunning()) {
             return;
         }
 
-        if (filterService.isRunning()) {
+        if (docsTable.getItems().isEmpty()) {
             return;
         }
 
@@ -260,20 +261,14 @@ public class ReviewScreen {
         }
 
         filterProgressBar.setVisible(true);
+
         filterService.setDocs(docsTable.getItems());
         filterService.setSearchText(searchText);
+        filterService.setIgnoreCase(ignoreCaseCheckBox.isSelected());
+        filterService.setRegexMode(regexModeCheckBox.isSelected());
+
         filterService.reset();
         filterService.start();
-    }
-
-    @FXML
-    public void ignoreCaseChecked(ActionEvent event) {
-        filterService.setIgnoreCase(ignoreCaseCheckBox.isSelected());
-    }
-
-    @FXML
-    public void regexModeChecked(ActionEvent event) {
-        filterService.setRegexMode(regexModeCheckBox.isSelected());
     }
 
     /**
@@ -296,7 +291,6 @@ public class ReviewScreen {
             title = new SimpleStringProperty(document.getTitle());
             year = new SimpleStringProperty(document.getYear());
             selected = new SimpleBooleanProperty(false);
-
             selected.addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
                     selectedDocs.add(TableDocument.this);
