@@ -5,12 +5,12 @@
 <?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.better_systematic_review.controller.ReviewCriteria">
    <children>
-      <TreeTableView editable="true" layoutX="186.0" layoutY="100.0" prefHeight="200.0" prefWidth="229.0" showRoot="false" sortMode="ONLY_FIRST_LEVEL">
-        <columns>
-          <TreeTableColumn prefWidth="75.0" text="Criteria" />
-          <TreeTableColumn minWidth="120.0" prefWidth="120.0" text="Required (Y/N)" />
+      <TreeTableView fx:id="treeTable" editable="true" layoutX="186.0" layoutY="100.0" prefHeight="200.0" prefWidth="229.0" sortMode="ONLY_FIRST_LEVEL">
+          <columns>
+          <TreeTableColumn fx:id="criteriaName" prefWidth="75.0" text="Criteria" />
+          <TreeTableColumn fx:id="criteriaReq" minWidth="120.0" prefWidth="120.0" text="Required (Y/N)" />
         </columns>
       </TreeTableView>
       <Button layoutX="238.0" layoutY="300.0" mnemonicParsing="false" text="Confirm Criteria" />
