@@ -1,9 +1,10 @@
 package com.better_systematic_review.model;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class Document {
+public class Document implements Serializable{
 
     private int hash;
     private File file;
@@ -20,7 +21,7 @@ public class Document {
         this.authorsString = String.join(", ", authors);
     }
 
-    public File getFile() {
+    File getFile() {
         return file;
     }
 

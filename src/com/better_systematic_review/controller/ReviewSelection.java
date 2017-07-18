@@ -24,7 +24,7 @@ public class ReviewSelection {
     @FXML
     private void handleAddReview(ActionEvent event) {
         ObservableList<Review> data = table.getItems();
-        int lastId = Integer.valueOf(table.getItems().get(table.getItems().size()-1).getId());
+        int lastId = (table.getItems().size() == 0) ? -1 : Integer.valueOf(table.getItems().get(table.getItems().size()-1).getId());
         if(!addName.getText().isEmpty()) {
             Review newReview = new Review(addName.getText(), String.valueOf(lastId + 1), "Never");
             data.add(newReview);
@@ -36,13 +36,17 @@ public class ReviewSelection {
 
     @FXML
     private void handleOpenReview(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/review_screen.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root, 800, 600);
-        Stage stage = (Stage) table.getScene().getWindow();
-        stage.setScene(scene);
-        Review.setCurrent(table.getItems().get(table.getFocusModel().getFocusedIndex()));
-        System.out.println(Review.getCurrent());
+        Review review = table.getFocusModel().getFocusedItem();
+        if (review!= null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/review_screen.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root, 800, 600);
+            Stage stage = (Stage) table.getScene().getWindow();
+            stage.setScene(scene);
+            ReviewScreen reviewScreen = loader.getController();
+            reviewScreen.setReview(table.getFocusModel().getFocusedItem());
+            reviewScreen.setDocuments();
+        }
     }
 
     public void setTable(List<Review> items){

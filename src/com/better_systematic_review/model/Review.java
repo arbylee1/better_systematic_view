@@ -3,16 +3,15 @@ package com.better_systematic_review.model;
 import com.better_systematic_review.Main;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Review implements Serializable {
-    private static Review current;
     private String name;
     private String id;
     private String lastLogin;
-    private ArrayList<Document> documents;
+    private Set<Document> documents;
     private File file;
 
     public Review(String name, String id, String lastLogin) {
@@ -20,6 +19,7 @@ public class Review implements Serializable {
         this.id = id;
         this.lastLogin = lastLogin;
         this.file = new File(Main.getReviewPath().resolve(id).toString());
+        this.documents = new HashSet<>();
     }
 
     public String getName() {
@@ -28,6 +28,7 @@ public class Review implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+        save();
     }
 
     public String getId() {
@@ -36,6 +37,7 @@ public class Review implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+        save();
     }
 
     public String getLastLogin() {
@@ -44,30 +46,25 @@ public class Review implements Serializable {
 
     public void setLastLogin(String lastLogin) {
         this.lastLogin = lastLogin;
+        save();
     }
 
     public void addDocument(Document document) {
         documents.add(document);
+        save();
     }
 
     public void removeDocument(Document document) {
         documents.remove(document);
+        save();
     }
 
-    public ArrayList<Document> getDocuments(){
+    public Set<Document> getDocuments(){
         return documents;
     }
 
     public File getFile() {
         return file;
-    }
-
-    public static void setCurrent(Review review) {
-        current = review;
-    }
-
-    public static Review getCurrent(){
-        return current;
     }
 
     public String toString() {

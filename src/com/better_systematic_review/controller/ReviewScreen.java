@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 
+import javax.print.Doc;
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,21 +36,28 @@ public class ReviewScreen {
     private static final String DELETE_WHILE_SEARCHING = "You can't delete documents while they are being searched.";
     private static final String SEARCH_FAILED = "Unfortunately the search has failed. Please make sure all documents are closed.";
 
+    private static Review currentReview;
     private static String labelText;
     private Set<TableDocument> selectedDocs = new HashSet<>();
     private PdfSearchService filterService;
     private final FileChooser fileChooser = new FileChooser();
 
-    public void setDocuments(Collection<Document> docs) {
+    void setDocuments() {
         selectedDocs.clear();
         docsTable.getItems().clear();
-        docs.forEach(d -> docsTable.getItems().add(new TableDocument(d)));
+        if (currentReview.getDocuments() != null) {
+            currentReview.getDocuments().forEach(d -> docsTable.getItems().add(new TableDocument(d)));
+        }
     }
 
-    public void addFileInfoToTable(File file) {
+    private void addFileInfoToTable(File file) {
         Document newDoc = new Document(file, file.getName(), "None", new String[0]);
-        TableDocument forTable = new TableDocument(newDoc);
-        docsTable.getItems().add(forTable);
+        currentReview.addDocument(newDoc);
+        setDocuments();
+    }
+
+    static void setReview(Review review) {
+        currentReview = review;
     }
 
     private void deleteSelectedDocuments() {
@@ -345,5 +353,6 @@ public class ReviewScreen {
         public SimpleBooleanProperty selectedProperty() {
             return selected;
         }
+
     }
 }
