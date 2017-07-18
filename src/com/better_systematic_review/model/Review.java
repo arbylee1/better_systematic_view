@@ -1,9 +1,14 @@
 package com.better_systematic_review.model;
 
-public class Review {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Review implements Serializable {
+    private static Review current;
     private String name;
     private String id;
     private String lastLogin;
+    private ArrayList<Document> documents;
 
     public Review(String name, String id, String lastLogin) {
         this.name = name;
@@ -33,5 +38,25 @@ public class Review {
 
     public void setLastLogin(String lastLogin) {
         this.lastLogin = lastLogin;
+    }
+
+    public void addDocument(Document document) {
+        documents.add(document);
+    }
+
+    public void removeDocument(Document document) {
+        documents.remove(document);
+    }
+
+    public ArrayList<Document> getDocuments(){
+        return documents;
+    }
+
+    public static void setCurrent(Review review) {
+        current = review;
+    }
+
+    public static Review getCurrent(){
+        return current;
     }
 }
