@@ -1,6 +1,10 @@
 package com.better_systematic_review.model;
 
-import java.io.Serializable;
+import com.better_systematic_review.Main;
+
+import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class Review implements Serializable {
@@ -9,11 +13,13 @@ public class Review implements Serializable {
     private String id;
     private String lastLogin;
     private ArrayList<Document> documents;
+    private File file;
 
     public Review(String name, String id, String lastLogin) {
         this.name = name;
         this.id = id;
         this.lastLogin = lastLogin;
+        this.file = new File(Main.getReviewPath().resolve(id).toString());
     }
 
     public String getName() {
@@ -52,11 +58,33 @@ public class Review implements Serializable {
         return documents;
     }
 
+    public File getFile() {
+        return file;
+    }
+
     public static void setCurrent(Review review) {
         current = review;
     }
 
     public static Review getCurrent(){
         return current;
+    }
+
+    public String toString() {
+        return "Review: " + name + " ID: " + id;
+    }
+    public void save() {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(file);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(this);
+            out.close();
+            fileOut.close();
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
+    public void delete() {
+        file.delete();
     }
 }

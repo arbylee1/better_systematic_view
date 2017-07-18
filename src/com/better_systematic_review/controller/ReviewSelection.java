@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ReviewSelection {
@@ -25,14 +26,12 @@ public class ReviewSelection {
         ObservableList<Review> data = table.getItems();
 
         if(!addName.getText().isEmpty()) {
-            data.add(new Review(
-                    addName.getText(),
-                    String.valueOf(ThreadLocalRandom.current().nextInt(1, 100 + 1)),
-                    "Never"
-            ));
-
+            Review newReview = new Review(addName.getText(), String.valueOf(data.size()), "Never");
+            data.add(newReview);
             addName.setText("");
+            newReview.save();
         }
+
     }
 
     @FXML
@@ -42,5 +41,11 @@ public class ReviewSelection {
         Scene scene = new Scene(root, 800, 600);
         Stage stage = (Stage) table.getScene().getWindow();
         stage.setScene(scene);
+        Review.setCurrent(table.getItems().get(table.getFocusModel().getFocusedIndex()));
+        System.out.println(Review.getCurrent());
+    }
+
+    public void setTable(List<Review> items){
+        table.getItems().addAll(items);
     }
 }

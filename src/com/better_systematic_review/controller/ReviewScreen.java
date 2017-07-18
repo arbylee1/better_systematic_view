@@ -2,6 +2,7 @@ package com.better_systematic_review.controller;
 
 import com.better_systematic_review.model.Document;
 import com.better_systematic_review.model.PdfSearchService;
+import com.better_systematic_review.model.Review;
 import com.better_systematic_review.model.TextExtractionTask;
 
 import javafx.beans.property.SimpleBooleanProperty;
@@ -14,8 +15,7 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
