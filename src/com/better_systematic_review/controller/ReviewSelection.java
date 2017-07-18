@@ -24,9 +24,9 @@ public class ReviewSelection {
     @FXML
     private void handleAddReview(ActionEvent event) {
         ObservableList<Review> data = table.getItems();
-
+        int lastId = Integer.valueOf(table.getItems().get(table.getItems().size()-1).getId());
         if(!addName.getText().isEmpty()) {
-            Review newReview = new Review(addName.getText(), String.valueOf(data.size()), "Never");
+            Review newReview = new Review(addName.getText(), String.valueOf(lastId + 1), "Never");
             data.add(newReview);
             addName.setText("");
             newReview.save();
