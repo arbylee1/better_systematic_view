@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.better_systematic_review.controller.ReviewCriteria">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.better_systematic_review.controller.ReviewCriteria">
    <children>
-      <TreeTableView fx:id="treeTable" editable="true" layoutX="186.0" layoutY="100.0" prefHeight="200.0" prefWidth="229.0" sortMode="ONLY_FIRST_LEVEL">
+      <TreeTableView fx:id="treeTable" editable="true" layoutX="63.0" layoutY="50.0" prefHeight="400.0" prefWidth="600.0" sortMode="ONLY_FIRST_LEVEL">
           <columns>
-          <TreeTableColumn fx:id="criteriaName" prefWidth="75.0" text="Criteria" />
-          <TreeTableColumn fx:id="criteriaReq" minWidth="120.0" prefWidth="120.0" text="Required (Y/N)" />
+          <TreeTableColumn fx:id="criteriaName" minWidth="150.0" prefWidth="150.0" text="Criteria" />
+          <TreeTableColumn fx:id="criteriaReq" minWidth="150.0" prefWidth="150.0" text="Required (Y/N)" />
         </columns>
       </TreeTableView>
-      <Button layoutX="238.0" layoutY="300.0" mnemonicParsing="false" text="Confirm Criteria" />
+      <Button layoutX="444.0" layoutY="450.0" mnemonicParsing="false" text="Save Criteria" />
+      <Button layoutX="179.0" layoutY="450.0" mnemonicParsing="false" onAction="#addRow" text="Add Row" />
+      <Button layoutX="304.0" layoutY="450.0" mnemonicParsing="false" onAction="#deleteRow" text="Delete Row" />
    </children>
 </AnchorPane>

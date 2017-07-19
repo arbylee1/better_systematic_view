@@ -36,4 +36,57 @@ public class ReviewCriteria {
         criteriaReq.setCellValueFactory(new TreeItemPropertyValueFactory<>("required"));
         criteriaReq.setCellFactory(CheckBoxTreeTableCell.<Criteria>forTreeTableColumn(criteriaReq));
     }
+
+    @FXML
+    public void addRow() {
+        if (treeTable.getSelectionModel().isEmpty()){
+            // Indicate a row needs to be selected
+            return;
+        }
+        else {
+            // Add Child
+            // Prepare a new TreeItem with a new Person object
+            TreeItem<Criteria> item = new TreeItem<>(new Criteria());
+
+            // Get the selection model
+            TreeTableView.TreeTableViewSelectionModel<Criteria> sm = treeTable.getSelectionModel();
+
+            // Get the selected row index
+            int rowIndex = sm.getSelectedIndex();
+
+            // Get the selected TreeItem
+            TreeItem<Criteria> selectedItem = sm.getModelItem(rowIndex);
+
+            // Add the new item as children to the selected item
+            selectedItem.getChildren().add(item);
+
+            // Make sure the new item is visible
+            selectedItem.setExpanded(true);
+
+            // Edit the item
+            //this.editItem(item);
+        }
+
+    }
+
+    @FXML
+    public void deleteRow() {
+        // Get the selection model
+        TreeTableView.TreeTableViewSelectionModel<Criteria> sm = treeTable.getSelectionModel();
+        if (sm.isEmpty()) {
+            // Indicate a row needs to be selected
+            return;
+        }
+
+        // Get the selected Entry
+        int rowIndex = sm.getSelectedIndex();
+        TreeItem<Criteria> selectedItem = sm.getModelItem(rowIndex);
+        TreeItem<Criteria> parent = selectedItem.getParent();
+
+        if (parent != null) {
+            // Remove the Item
+            parent.getChildren().remove(selectedItem);
+        }
+    }
+
 }

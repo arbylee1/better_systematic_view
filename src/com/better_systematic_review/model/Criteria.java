@@ -12,7 +12,7 @@ public class Criteria {
     private SimpleBooleanProperty required;
 
     public Criteria(){
-        name = new SimpleStringProperty();
+        name = new SimpleStringProperty("New");
         value = new SimpleStringProperty();
         required = new SimpleBooleanProperty();
     }

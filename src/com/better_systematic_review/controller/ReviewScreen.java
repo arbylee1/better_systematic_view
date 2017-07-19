@@ -284,7 +284,7 @@ public class ReviewScreen {
     private void editReviewCriteria(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/criteria.fxml"));
         Parent root = loader.load();
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 700, 500);
 
         final Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
