@@ -21,6 +21,10 @@ public class Main extends Application {
     private static Path documentPath;
     private static Path reviewPath;
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         applicationPath = Paths.get(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI());
@@ -49,17 +53,17 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
     public void init() throws Exception {
     }
+
     public static Path getApplicationPath() {
         return applicationPath;
     }
+
     public static Path getDocumentPath(){
         return documentPath;
     }
+
     public static Path getReviewPath() {
         return reviewPath;
     }

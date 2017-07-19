@@ -8,6 +8,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Review implements Serializable {
+
+    private static final long serialVersionUID = -1636226072981417700L;
+
     private String name;
     private String id;
     private String lastLogin;
@@ -70,6 +73,7 @@ public class Review implements Serializable {
     public String toString() {
         return "Review: " + name + " ID: " + id;
     }
+
     public void save() {
         try {
             FileOutputStream fileOut = new FileOutputStream(file);
@@ -81,7 +85,8 @@ public class Review implements Serializable {
             i.printStackTrace();
         }
     }
-    public void delete() {
-        file.delete();
+
+    public boolean delete() {
+        return file.delete();
     }
 }

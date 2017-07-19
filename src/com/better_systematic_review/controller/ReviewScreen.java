@@ -15,7 +15,6 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 
-import javax.print.Doc;
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -50,10 +49,10 @@ public class ReviewScreen {
         }
     }
 
-    private void addFileInfoToTable(File file) {
+    private void addFileInfoToReview(File file) {
         Document newDoc = new Document(file, file.getName(), "None", new String[0]);
+        docsTable.getItems().add(new TableDocument(newDoc));
         currentReview.addDocument(newDoc);
-        setDocuments();
     }
 
     static void setReview(Review review) {
@@ -224,7 +223,7 @@ public class ReviewScreen {
         textExtractor.setOnFailed(fail -> progressPopup.hide());
         textExtractor.setOnSucceeded(success -> {
             progressPopup.hide();
-            addFileInfoToTable(file);
+            addFileInfoToReview(file);
         });
 
         progressPopup.show(docsTable.getScene().getWindow());
