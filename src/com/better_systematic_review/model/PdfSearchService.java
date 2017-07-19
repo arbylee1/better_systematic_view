@@ -122,7 +122,7 @@ public class PdfSearchService extends Service<Map<ReviewScreen.TableDocument, In
      *
      * @return The text of the document as a string
      *
-     * @throws IOException
+     * @throws IOException If the file fails to read
      */
     private String documentAsString(Document doc) throws IOException {
         String pathToPDF = doc.getFile().getAbsolutePath();
