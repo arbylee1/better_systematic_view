@@ -26,7 +26,7 @@ public class ReviewCriteria {
         if(root == null) {
             Criteria criteria = new Criteria();
             criteria.setName("Root");
-            root = new TreeItem<Criteria>(criteria);
+            root = new TreeItem<>(criteria);
         }
         root.setExpanded(true);
         treeTable.setRoot(root);
@@ -41,34 +41,27 @@ public class ReviewCriteria {
 
     @FXML
     public void addRow() {
-        if (treeTable.getSelectionModel().isEmpty()){
-            // Indicate a row needs to be selected
-            return;
+        TreeItem<Criteria> selectedItem;
+        TreeItem<Criteria> item = new TreeItem<>(new Criteria());
+        TreeTableView.TreeTableViewSelectionModel<Criteria> sm = treeTable.getSelectionModel();
+        if (sm.isEmpty()){
+            root.getChildren().add(item);
+            root.setExpanded(true);
         }
         else {
-            // Add Child
-            // Prepare a new TreeItem with a new Person object
-            TreeItem<Criteria> item = new TreeItem<>(new Criteria());
-
-            // Get the selection model
-            TreeTableView.TreeTableViewSelectionModel<Criteria> sm = treeTable.getSelectionModel();
-
             // Get the selected row index
             int rowIndex = sm.getSelectedIndex();
 
             // Get the selected TreeItem
-            TreeItem<Criteria> selectedItem = sm.getModelItem(rowIndex);
+            selectedItem = sm.getModelItem(rowIndex);
 
             // Add the new item as children to the selected item
             selectedItem.getChildren().add(item);
 
             // Make sure the new item is visible
             selectedItem.setExpanded(true);
-
-            // Edit the item
-            //this.editItem(item);
         }
-
+        sm.clearSelection(); //Cant manually deselect rows so this fix is required
     }
 
     @FXML
@@ -89,10 +82,11 @@ public class ReviewCriteria {
             // Remove the Item
             parent.getChildren().remove(selectedItem);
         }
+        sm.clearSelection(); //Cant manually deselect rows so this fix is required
     }
 
     @FXML
     public void saveCriteria() {
-
+        // Check whether changes were made and store those changes.
     }
 }
