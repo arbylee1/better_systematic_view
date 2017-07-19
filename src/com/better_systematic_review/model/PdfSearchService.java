@@ -54,14 +54,14 @@ public class PdfSearchService extends Service<Map<ReviewScreen.TableDocument, In
         return new Task<Map<ReviewScreen.TableDocument, Integer>>() {
             @Override
             public Map<ReviewScreen.TableDocument, Integer> call() throws Exception {
-                HashMap<ReviewScreen.TableDocument, Integer> results = new HashMap<>();
                 updateProgress(0, 1);
                 compilePattern();
+                HashMap<ReviewScreen.TableDocument, Integer> results = new HashMap<>();
 
-                int docIndex = 0;
+                int docNumber = 1;
                 for (ReviewScreen.TableDocument tableDoc : docs) {
                     results.put(tableDoc, countMatches(tableDoc));
-                    updateProgress(++docIndex, docs.size()); // For progress bar
+                    updateProgress(docNumber++, docs.size()); // For progress bar
                 }
 
                 return results;
