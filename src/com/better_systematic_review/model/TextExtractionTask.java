@@ -20,6 +20,7 @@ public class TextExtractionTask extends Task<Void> {
         this.pdfFile = pdfFile;
     }
 
+    @Override
     protected Void call() {
         String docPath = pdfFile.getAbsolutePath();
         String textPath = docPath.replace(".pdf", ".txt");

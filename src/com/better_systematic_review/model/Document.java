@@ -1,26 +1,28 @@
 package com.better_systematic_review.model;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class Document {
+public class Document implements Serializable{
 
-    private String[] authors;
+    private int hash;
+    private File file;
     private String title;
     private String year;
+    private String[] authors;
     private String authorsString;
-    private File file;
 
-    public Document(String[] authors, String title, String year, File file) {
-        this.authors = authors;
+    public Document(File file, String title, String year, String[] authors) {
+        this.file = file;
         this.title = title;
         this.year = year;
-        this.authorsString = String.join(",", authors);
-        this.file = file;
+        this.authors = authors;
+        this.authorsString = String.join(", ", authors);
     }
 
-    public String[] getAuthors() {
-        return authors;
+    File getFile() {
+        return file;
     }
 
     public String getTitle() {
@@ -31,12 +33,12 @@ public class Document {
         return year;
     }
 
-    public String getAuthorsString() {
-        return authorsString;
+    public String[] getAuthors() {
+        return authors;
     }
 
-    public File getFile() {
-        return file;
+    public String getAuthorsString() {
+        return authorsString;
     }
 
     @Override
@@ -49,31 +51,27 @@ public class Document {
             return false;
         }
 
+        if (this == other) {
+            return true;
+        }
+
         Document that = (Document) other;
 
-        if (!Arrays.equals(this.authors, that.authors)) {
-            return false;
-        }
-
-        if (!this.title.equals(that.title)) {
-            return false;
-        }
-
-        if (!this.year.equals(that.year)) {
-            return false;
-        }
-
-        return true;
+        return this.file.equals(that.file)
+            && this.title.equals(that.title)
+            && this.year.equals(that.year)
+            && Arrays.equals(this.authors, that.authors);
     }
 
     @Override
     public int hashCode() {
-        int hash = 17;
-
-        hash = 31 * hash + Arrays.hashCode(authors);
-        hash = 31 * hash + title.hashCode();
-        hash = 31 * hash + year.hashCode();
-        hash = 31 * hash + authorsString.hashCode();
+        if (hash == 0) {
+            hash = 17;
+            hash = 31 * hash + file.hashCode();
+            hash = 31 * hash + title.hashCode();
+            hash = 31 * hash + year.hashCode();
+            hash = 31 * hash + Arrays.hashCode(authors);
+        }
 
         return hash;
     }
