@@ -17,16 +17,18 @@ public class ReviewCriteria {
     @FXML private TreeTableView<Criteria> treeTable;
     @FXML private TreeTableColumn<Criteria, String> criteriaName;
     @FXML private TreeTableColumn<Criteria, Boolean> criteriaReq;
-    private ObservableList<Criteria> criteriaList;
+    public static TreeItem<Criteria> root;
 
+    //Will need to change table creation here to support persistence.
     @FXML
     public void initialize() {
         // Create the RootNode
-        Criteria criteria = new Criteria();
-        criteria.setName("test");
-        TreeItem<Criteria> root = new TreeItem<Criteria>(criteria);
+        if(root == null) {
+            Criteria criteria = new Criteria();
+            criteria.setName("Root");
+            root = new TreeItem<Criteria>(criteria);
+        }
         root.setExpanded(true);
-
         treeTable.setRoot(root);
 
         // Create Columns with Cell Factories
@@ -89,4 +91,8 @@ public class ReviewCriteria {
         }
     }
 
+    @FXML
+    public void saveCriteria() {
+
+    }
 }
