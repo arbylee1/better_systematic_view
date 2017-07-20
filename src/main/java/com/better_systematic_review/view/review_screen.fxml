@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.better_systematic_review.model.CheckBoxCellFactory?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<GridPane prefHeight="600.0" prefWidth="800.0"
+          xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="com.better_systematic_review.controller.ReviewScreen"
+          stylesheets="@review_screen_ui.css">
+    <TabPane tabClosingPolicy="UNAVAILABLE" prefHeight="600" prefWidth="800" GridPane.rowIndex="1">
+        <Tab text="Documents">
+            <VBox>
+                <HBox prefHeight="30">
+                    <HBox alignment="center">
+                        <HBox prefWidth="10"/>
+                        <Button id="includeDoc" onAction="#includeCheckedDocs"/>
+                        <Button id="excludeDoc" onAction="#excludeCheckedDocs"/>
+                        <Button id="deleteDoc" onAction="#confirmDelete"/>
+                        <HBox prefWidth="10"/>
+                        <Button id="addDoc" onAction="#addDocument"/>
+                        <Button id="importDoc" onAction="#importDocuments"/>
+                        <Button id="exportDoc" onAction="#exportDocuments"/>
+                        <HBox prefWidth="10"/>
+                        <Button id="exportToExcel" onAction="#exportToExcel"/>
+                        <HBox prefWidth="20"/>
+                        <Label text="Filter: "/>
+                        <TextField fx:id="filterTextBox" prefWidth="150"/>
+                        <Button text="Search" onAction="#filter"/>
+                        <VBox>
+                            <CheckBox fx:id="ignoreCaseCheckBox" text="Ignore case"/>
+                            <CheckBox fx:id="regexModeCheckBox" text="Use regular expressions"/>
+                        </VBox>
+                        <ProgressBar fx:id="filterProgressBar" visible="false"/>
+                    </HBox>
+                </HBox>
+
+                <TableView fx:id="docsTable" prefWidth="200.0" editable="true">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList"/>
+                    </items>
+
+                    <columns>
+                        <TableColumn prefWidth="30">
+                            <graphic>
+                                <CheckBox fx:id="selectAllCheckBox" onAction="#selectAllDocuments"/>
+                            </graphic>
+                            <cellFactory>
+                                <CheckBoxCellFactory/>
+                            </cellFactory>
+                            <cellValueFactory>
+                                <PropertyValueFactory property="selected"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Authors" prefWidth="200">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="authorsString"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Titles" prefWidth="420">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="title"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="Year" prefWidth="150">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="year"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                    </columns>
+                </TableView>
+            </VBox>
+        </Tab>
+
+        <Tab text="Search">
+
+        </Tab>
+
+        <Tab text="Frequencies">
+
+        </Tab>
+
+        <Tab text="Meta-Analysis">
+
+        </Tab>
+    </TabPane>
+
+    <Label fx:id="reviewLabel" text="Label"/>
+</GridPane>
