@@ -2,7 +2,17 @@
 
 ## Release Notes
 
-  - 
+  __New Features__
+  
+  * Persistence of user reviews and document information
+  * Ability to edit criteria for a review
+
+  __Bug Fixes__
+  
+  * Fixed bug where document selections would be cleared after adding a new document
+  * Fixed bug where the “select all” checkbox would not become checked when clicked on
+
+  __Known Bugs__
 
 ## Pre-requisites
 
