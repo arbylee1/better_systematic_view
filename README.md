@@ -4,11 +4,13 @@
 
   __New Features__
   
+  * Ability to add, edit, and delete criteria for a review
   * Persistence of user reviews and document information
-  * Ability to edit criteria for a review
 
   __Bug Fixes__
   
+  * Fixed buggy selection of reviews on the selection screen
+  * Fixed strange appearance of progress bar when adding a document
   * Fixed bug where document selections would be cleared after adding a new document
   * Fixed bug where the “select all” checkbox would not become checked when clicked on
 
