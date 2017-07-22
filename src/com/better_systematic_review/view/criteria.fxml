@@ -11,6 +11,7 @@
           <columns>
           <TreeTableColumn fx:id="criteriaName" minWidth="150.0" prefWidth="150.0" text="Criteria" />
           <TreeTableColumn fx:id="criteriaReq" minWidth="150.0" prefWidth="150.0" text="Required (Y/N)" />
+          <TreeTableColumn prefWidth="300.0"/>
         </columns>
       </TreeTableView>
       <Button layoutX="444.0" layoutY="450.0" mnemonicParsing="false" onAction="#saveCriteria" text="Save Criteria" />

@@ -23,7 +23,7 @@
     <TabPane prefHeight="600" prefWidth="800" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
         <Tab text="Documents">
             <VBox>
-                <HBox prefHeight="30">
+                <HBox prefHeight="35" prefWidth="800.0">
                     <HBox alignment="center">
                         <HBox prefWidth="10" />
                         <Button id="includeDoc" onAction="#includeCheckedDocs" />
@@ -35,19 +35,19 @@
                         <Button id="exportDoc" onAction="#exportDocuments" />
                         <HBox prefWidth="10" />
                         <Button id="exportToExcel" onAction="#exportToExcel" />
-                        <HBox prefWidth="20" />
-                  <Button mnemonicParsing="false" onAction="#editReviewCriteria" text="Criteria">
+                        <HBox prefWidth="10" />
+                  <Button mnemonicParsing="false" onAction="#editReviewCriteria" text="Criteria" prefWidth="70" >
                      <HBox.margin>
-                        <Insets right="10.0" />
+                        <Insets right="5.0" />
                      </HBox.margin>
                   </Button>
-                        <Label text="Filter: " />
+                        <Label text="Filter: " prefWidth="45"/>
                         <TextField fx:id="filterTextBox" prefWidth="150" />
-                        <Button onAction="#filter" text="Search">
+                        <Button onAction="#filter" text="Search" prefWidth="70">
                      <HBox.margin>
-                        <Insets left="10.0" />
+                        <Insets left="5.0" />
                      </HBox.margin></Button>
-                        <VBox>
+                        <VBox prefWidth="180">
                             <CheckBox fx:id="ignoreCaseCheckBox" text="Ignore case" />
                             <CheckBox fx:id="regexModeCheckBox" text="Use regular expressions" />
                      <HBox.margin>
