@@ -18,7 +18,7 @@
 
 ## Pre-requisites
 
-You must have Java installed on your computer - JRE 1.8.0_131.
+You must have Java installed on your computer - JRE 1.8.0_131 or later.
 
 ## Dependencies
 
@@ -26,7 +26,7 @@ There are no dependencies besides Java.
 
 ## Download Instructions
 
-Get it from github
+Download the file better_systematic_review.(JAR? EXE? ????) listed above.
 
 ## Installation Instructions
 
