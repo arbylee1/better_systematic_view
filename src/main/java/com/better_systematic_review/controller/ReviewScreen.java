@@ -237,8 +237,10 @@ public class ReviewScreen {
         if (file == null) {
             return;
         }
+        System.out.println(file);
         Popup progressPopup = new Popup();
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/add_file_progress.fxml"));
+        System.out.println(file);
         Parent root = loader.load();
         progressPopup.getContent().add(root);
         progressPopup.setHideOnEscape(false);
@@ -251,7 +253,9 @@ public class ReviewScreen {
         progressBar.setProgress(-1);
 
         TextExtractionTask textExtractor = new TextExtractionTask(file);
-        textExtractor.setOnFailed(fail -> progressPopup.hide());
+        textExtractor.setOnFailed(fail -> {
+            progressPopup.hide();
+        });
         textExtractor.setOnSucceeded(success -> {
             progressPopup.hide();
             addFileInfoToReview(file);

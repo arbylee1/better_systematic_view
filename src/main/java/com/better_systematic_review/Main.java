@@ -16,7 +16,6 @@ import java.nio.file.*;
 import java.util.ArrayList;
 
 public class Main extends Application {
-    private static Path applicationPath;
     private static Path documentPath;
     private static Path reviewPath;
 
@@ -26,17 +25,15 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        applicationPath = Paths.get(getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+        Path applicationPath = Paths.get(getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
         Path localPath = applicationPath.getParent().getParent().resolve("local");
         reviewPath = localPath.resolve("reviews");
         documentPath = localPath.resolve("documents");
         try {
-            System.out.println(applicationPath);
             Files.createDirectory(localPath);
             Files.createDirectory(reviewPath);
             Files.createDirectory(documentPath);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (FileAlreadyExistsException e) {
         }
         ArrayList<Review> reviewList = new ArrayList<>();
         try {
@@ -44,7 +41,6 @@ public class Main extends Application {
                 FileInputStream f_in = new FileInputStream(file);
                 ObjectInputStream obj_in = new ObjectInputStream(f_in);
                 Object obj = obj_in.readObject();
-                System.out.println(obj);
                 if (obj instanceof Review) {
                     reviewList.add((Review) obj);
                 }
@@ -61,13 +57,6 @@ public class Main extends Application {
         }  catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void init() throws Exception {
-    }
-
-    public static Path getApplicationPath() {
-        return applicationPath;
     }
 
     public static Path getDocumentPath(){
