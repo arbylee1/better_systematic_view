@@ -1,0 +1,21 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+version = '1.3'
+mainClassName = 'Main'
+
+jar  {
+  manifest {
+     attributes 'Main-Class' : 'com.better_systematic_review.Main',
+				 'Class-Path' : '../../lib/jpedal-trial.jar'
+				'../../lib/pdfbox-app-2.0.7.jar'
+    }
+    destinationDir = file("build/libs/.")
+    archiveName = 'better_systematic_review.jar'
+}
+
+dependencies {
+	compile files('lib/jpedal-trial.jar')
+	compile files('lib/pdfbox-app-2.0.7.jar')
+}
