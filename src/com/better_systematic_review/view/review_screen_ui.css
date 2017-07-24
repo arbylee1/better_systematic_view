@@ -10,42 +10,42 @@
 }
 
 #includeDoc{
-	-fx-background-image: url('../../../assets/plus.png');
+	-fx-background-image: url('../../../../assets/plus.png');
 	-fx-background-size: 15px;
 	-fx-padding: 0px 12px 5px 12px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 #excludeDoc{
-	-fx-background-image: url('../../../assets/minus.png');
+	-fx-background-image: url('../../../../assets/minus.png');
 	-fx-background-size: 15px;
 	-fx-padding: 0px 12px 5px 12px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 #deleteDoc{
-	-fx-background-image: url('../../../assets/delete.png');
+	-fx-background-image: url('../../../../assets/delete.png');
 	-fx-background-size: 13px;
 	-fx-padding: 0px 12px 5px 12px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 #addDoc{
-	-fx-background-image: url('../../../assets/add.png');
+	-fx-background-image: url('../../../../assets/add.png');
 	-fx-background-size: 15px;
 	-fx-padding: 3px 12px 3px 12px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 #importDoc{
-	-fx-background-image: url('../../../assets/import-icon.png');
+	-fx-background-image: url('../../../../assets/import-icon.png');
 	-fx-background-size: 15px;
 	-fx-padding: 3px 12px 3px 12px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 #exportDoc{
-	-fx-background-image: url('../../../assets/export.png');
+	-fx-background-image: url('../../../../assets/export.png');
 	-fx-background-size: 15px;
 	-fx-padding: 3px 12px 3px 12px;
     -fx-background-repeat: no-repeat;
@@ -53,7 +53,7 @@
 }
 
 #exportToExcel{
-	-fx-background-image: url('../../../assets/exportToExcel.png');
+	-fx-background-image: url('../../../../assets/exportToExcel.png');
 	-fx-background-size: 15px;
 	-fx-padding: 3px 12px 3px 12px;
     -fx-background-repeat: no-repeat;
