@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane stylesheets="@../css/criteria_ui.css" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.better_systematic_review.controller.ReviewCriteria">
+   <children>
+      <TreeTableView fx:id="treeTable" editable="true" layoutX="63.0" layoutY="50.0" prefHeight="400.0" prefWidth="600.0" showRoot="false" sortMode="ONLY_FIRST_LEVEL">
+          <columns>
+          <TreeTableColumn fx:id="criteriaName" minWidth="150.0" prefWidth="150.0" text="Criteria" />
+          <TreeTableColumn fx:id="criteriaReq" minWidth="150.0" prefWidth="150.0" text="Required (Y/N)" />
+          <TreeTableColumn prefWidth="300.0"/>
+        </columns>
+      </TreeTableView>
+      <Button layoutX="444.0" layoutY="450.0" mnemonicParsing="false" onAction="#saveCriteria" text="Save Criteria" />
+      <Button layoutX="179.0" layoutY="450.0" mnemonicParsing="false" onAction="#addRow" text="Add Row" />
+      <Button layoutX="304.0" layoutY="450.0" mnemonicParsing="false" onAction="#deleteRow" text="Delete Row" />
+   </children>
+</AnchorPane>
