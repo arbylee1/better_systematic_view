@@ -7,9 +7,11 @@ mainClassName = 'Main'
 
 jar  {
   manifest {
-     attributes 'Manifest-Version': '1.0',
+     attributes 'Implementation-Title' : 'Gradle Quickstart',
+             'Manifest-Version': '1.0',
              'Main-Class': 'com.better_systematic_review.Main',
-             'Class-Path': files('../lib/jpedal-trial.jar', '../lib/pdfbox-app-2.0.7.jar')
+             'Class-Path': 'lib/pdfbox-app-2.0.7.jar'
+                            'lib/jpedal-trial.jar'
 }
     destinationDir = file("build/")
     archiveName = 'better_systematic_review.jar'

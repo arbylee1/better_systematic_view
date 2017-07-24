@@ -26,7 +26,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Path applicationPath = Paths.get(getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-        Path localPath = applicationPath.getParent().getParent().resolve("local");
+        Path localPath = applicationPath.getParent().resolve("local");
         reviewPath = localPath.resolve("reviews");
         documentPath = localPath.resolve("documents");
         try {

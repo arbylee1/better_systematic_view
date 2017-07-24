@@ -237,10 +237,8 @@ public class ReviewScreen {
         if (file == null) {
             return;
         }
-        System.out.println(file);
         Popup progressPopup = new Popup();
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/add_file_progress.fxml"));
-        System.out.println(file);
         Parent root = loader.load();
         progressPopup.getContent().add(root);
         progressPopup.setHideOnEscape(false);
