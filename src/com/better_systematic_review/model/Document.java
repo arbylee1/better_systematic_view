@@ -41,6 +41,27 @@ public class Document implements Serializable{
         return authorsString;
     }
 
+    public boolean equivalent(Object other) {
+        if (other == null) {
+            return false;
+        }
+
+        if (!(other instanceof Document)) {
+            return false;
+        }
+
+        if (this == other) {
+            return true;
+        }
+
+        Document that = (Document) other;
+
+        return this.file.equals(that.file)
+                && this.title.equals(that.title)
+                && this.year.equals(that.year)
+                && Arrays.equals(this.authors, that.authors);
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other == null) {

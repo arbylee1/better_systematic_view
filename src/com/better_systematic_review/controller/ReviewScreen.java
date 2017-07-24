@@ -1,5 +1,6 @@
 package com.better_systematic_review.controller;
 
+import com.better_systematic_review.Main;
 import com.better_systematic_review.model.Document;
 import com.better_systematic_review.model.PdfSearchService;
 import com.better_systematic_review.model.Review;
@@ -18,6 +19,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Popup;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -52,7 +55,33 @@ public class ReviewScreen {
     }
 
     private void addFileInfoToReview(File file) {
-        Document newDoc = new Document(file, file.getName(), "None", new String[0]);
+        String name = file.getName();
+        Path filePath = file.toPath();
+        boolean fileExists = false;
+        Path localPath = Main.getDocumentPath().resolve(file.getName());
+        try {
+            byte[] loadedContent = Files.readAllBytes(file.toPath());
+            for (File document : new File(Main.getDocumentPath().toString()).listFiles()) {
+                byte[] existingContent = Files.readAllBytes(document.toPath());
+                if (Arrays.equals(loadedContent, existingContent)) {
+                    file = document;
+                    fileExists = true;
+                }
+            }
+            if (!fileExists) {
+                int i = 0;
+                Path newPath = localPath;
+                String[] tokens = name.split("\\.(?=[^\\.]+$)");
+                while(Files.exists(newPath)) {
+                    newPath = localPath.getParent().resolve(tokens[0] + "(" + i + ")" + "." + tokens[1]);
+                    file = localPath.toFile();
+                }
+                Files.copy(filePath, newPath);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Document newDoc = new Document(file, name, "None", new String[0]);
         docsTable.getItems().add(new TableDocument(newDoc));
         currentReview.addDocument(newDoc);
     }
@@ -204,11 +233,9 @@ public class ReviewScreen {
     @FXML
     private void addDocument(ActionEvent event) throws IOException {
         File file = fileChooser.showOpenDialog(docsTable.getScene().getWindow());
-
         if (file == null) {
             return;
         }
-
         Popup progressPopup = new Popup();
         Parent root = FXMLLoader.load(getClass().getResource("../view/add_file_progress.fxml"));
         progressPopup.getContent().add(root);
@@ -226,7 +253,7 @@ public class ReviewScreen {
         textExtractor.setOnSucceeded(success -> {
             progressPopup.hide();
             addFileInfoToReview(file);
-        });
+    });
 
         progressPopup.show(docsTable.getScene().getWindow());
         startDaemonThread(textExtractor);
@@ -288,7 +315,7 @@ public class ReviewScreen {
 
         final Stage dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
-        dialog.initOwner((Stage) docsTable.getScene().getWindow());
+        dialog.initOwner(docsTable.getScene().getWindow());
         dialog.setScene(scene);
         dialog.show();
     }
