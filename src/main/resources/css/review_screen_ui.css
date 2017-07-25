@@ -9,6 +9,14 @@
    -fx-border-width: 1px;
 }
 
+#back{
+    -fx-background-image: url('../images/back.png');
+    -fx-background-size: 15px;
+    -fx-padding: 0px 12px 5px 12px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
 #includeDoc{
 	-fx-background-image: url('../images/plus.png');
 	-fx-background-size: 15px;

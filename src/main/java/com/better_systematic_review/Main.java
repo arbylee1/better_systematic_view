@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class Main extends Application {
     private static Path documentPath;
     private static Path reviewPath;
+    private static ArrayList<Review> reviewList = new ArrayList<>();
 
     public static void main(String[] args) {
         launch(args);
@@ -35,7 +36,7 @@ public class Main extends Application {
             Files.createDirectory(documentPath);
         } catch (FileAlreadyExistsException e) {
         }
-        ArrayList<Review> reviewList = new ArrayList<>();
+
         try {
             for (File file : new File(reviewPath.toString()).listFiles()) {
                 FileInputStream f_in = new FileInputStream(file);
@@ -65,5 +66,8 @@ public class Main extends Application {
 
     public static Path getReviewPath() {
         return reviewPath;
+    }
+    public static ArrayList<Review> getReviewList () {
+        return reviewList;
     }
 }

@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 public class ReviewSelection {
@@ -48,7 +49,9 @@ public class ReviewSelection {
         Stage stage = (Stage) table.getScene().getWindow();
         stage.setScene(scene);
         ReviewScreen reviewScreen = loader.getController();
-        reviewScreen.setReview(table.getFocusModel().getFocusedItem());
+        Review openedReview = table.getFocusModel().getFocusedItem();
+        openedReview.setLastLogin(new Date().toString());
+        reviewScreen.setReview(openedReview);
         reviewScreen.setDocuments();
     }
 

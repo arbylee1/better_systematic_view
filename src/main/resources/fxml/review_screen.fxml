@@ -26,6 +26,7 @@
                 <HBox prefHeight="35" prefWidth="800.0">
                     <HBox alignment="center">
                         <HBox prefWidth="10" />
+                        <Button id="back" onAction="#back" />
                         <Button id="includeDoc" onAction="#includeCheckedDocs" />
                         <Button id="excludeDoc" onAction="#excludeCheckedDocs" />
                         <Button id="deleteDoc" onAction="#confirmDelete" />

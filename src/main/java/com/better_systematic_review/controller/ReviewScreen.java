@@ -55,6 +55,8 @@ public class ReviewScreen {
         }
     }
 
+
+
     private void addFileInfoToReview(File file) {
         String name = file.getName();
         Path filePath = file.toPath();
@@ -202,6 +204,18 @@ public class ReviewScreen {
         filterService.setOnFailed(fail -> onFilterFailed());
         filterProgressBar.progressProperty().bind(filterService.progressProperty());
     }
+
+    @FXML
+    private void back(ActionEvent event) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("fxml/review_selection.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root, 600, 400);
+        Stage stage = (Stage) docsTable.getScene().getWindow();
+        stage.setScene(scene);
+        ReviewSelection reviewSelection = loader.getController();
+        reviewSelection.setTable(Main.getReviewList());
+    }
+
 
     @FXML
     private void selectAllDocuments(ActionEvent event) {
