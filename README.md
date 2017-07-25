@@ -26,12 +26,14 @@ There are no dependencies besides Java.
 
 ## Download Instructions
 
-Download the file better_systematic_review_1.3.zip listed above.
+Download the file better_systematic_review.zip listed above.
 
 ## Installation Instructions
 
-Extract better_systematic_review_1.3.zip to your preferred location.
+Extract better_systematic_review.zip to your preferred location.
 
 ## How to run
 
 Navigate to the libs directory inside the better_systematic_review directory and double click on better_systematic_review.jar.
+
+## Troubleshooting
