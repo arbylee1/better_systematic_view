@@ -108,7 +108,6 @@ public class ReviewScreen {
 
         for (TableDocument doc : selectedDocs) {
             docsTable.getItems().remove(doc);
-            currentReview.removeDocument(doc.getDocument());
         }
 
         selectedDocs.clear();
@@ -168,7 +167,6 @@ public class ReviewScreen {
         confirmDelete.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 for (TableDocument doc : docsWithNoResults) {
-                    currentReview.removeDocument(doc.getDocument());
                     docsTable.getItems().remove(doc);
                 }
             }
@@ -285,11 +283,6 @@ public class ReviewScreen {
     private void exportToExcel(ActionEvent event) {
 
     }
-
-//    @FXML
-//    private void tagDocument(ActionEvent event) {
-//
-//    }
 
     @FXML
     private void filter(ActionEvent event) throws Exception {

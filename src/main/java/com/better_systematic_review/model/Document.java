@@ -2,7 +2,6 @@ package com.better_systematic_review.model;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Document implements Serializable{
@@ -13,7 +12,6 @@ public class Document implements Serializable{
     private String year;
     private String[] authors;
     private String authorsString;
-    private ArrayList<String> tags;
 
     public Document(File file, String title, String year, String[] authors) {
         this.file = file;
@@ -21,7 +19,6 @@ public class Document implements Serializable{
         this.year = year;
         this.authors = authors;
         this.authorsString = String.join(", ", authors);
-        this.tags = new ArrayList<>();
     }
 
     File getFile() {
@@ -42,10 +39,6 @@ public class Document implements Serializable{
 
     public String getAuthorsString() {
         return authorsString;
-    }
-
-    public ArrayList<String> getTags () {
-        return tags;
     }
 
     public boolean equivalent(Object other) {
