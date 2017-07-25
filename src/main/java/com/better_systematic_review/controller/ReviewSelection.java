@@ -1,6 +1,7 @@
 package com.better_systematic_review.controller;
 
 
+import com.better_systematic_review.Main;
 import com.better_systematic_review.model.Review;
 import javafx.fxml.FXML;
 import javafx.collections.ObservableList;
@@ -33,6 +34,7 @@ public class ReviewSelection {
             data.add(newReview);
             addName.setText("");
             newReview.save();
+            Main.getReviewList().add(newReview);
         }
     }
 
