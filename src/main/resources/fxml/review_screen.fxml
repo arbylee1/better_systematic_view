@@ -36,6 +36,8 @@
                         <HBox prefWidth="10" />
                         <Button id="exportToExcel" onAction="#exportToExcel" />
                         <HBox prefWidth="10" />
+                        <Button id="tagDocument" onAction="#tagDocument" />
+                        <HBox prefWidth="10" />
                   <Button mnemonicParsing="false" onAction="#editReviewCriteria" text="Criteria" prefWidth="70" >
                      <HBox.margin>
                         <Insets right="5.0" />
@@ -75,19 +77,24 @@
                                 <PropertyValueFactory property="selected" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn prefWidth="200" text="Authors">
+                        <TableColumn prefWidth="120" text="Authors">
                             <cellValueFactory>
                                 <PropertyValueFactory property="authorsString" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn prefWidth="420" text="Titles">
+                        <TableColumn prefWidth="420" text="Title">
                             <cellValueFactory>
                                 <PropertyValueFactory property="title" />
                             </cellValueFactory>
                         </TableColumn>
-                        <TableColumn prefWidth="150" text="Year">
+                        <TableColumn prefWidth="60" text="Year">
                             <cellValueFactory>
                                 <PropertyValueFactory property="year" />
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="150" text="tags">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="tagString" />
                             </cellValueFactory>
                         </TableColumn>
                     </columns>

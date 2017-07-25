@@ -45,6 +45,7 @@ public class ReviewScreen {
     private Set<TableDocument> selectedDocs = new HashSet<>();
     private PdfSearchService filterService;
     private final FileChooser fileChooser = new FileChooser();
+    private static String filterString;
 
     void setDocuments() {
         selectedDocs.clear();
@@ -58,7 +59,6 @@ public class ReviewScreen {
         String name = file.getName();
         Path filePath = file.toPath();
         Path localPath = Main.getDocumentPath().resolve(file.getName());
-        System.out.println(name + filePath);
         try {
             boolean fileExists = false;
             byte[] loadedContent = Files.readAllBytes(file.toPath());
@@ -132,6 +132,11 @@ public class ReviewScreen {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
 
+        for (TableDocument doc: docsWithNoMatches) {
+            if (doc.getDocument().getTags().contains(filterString)) {
+                docsWithNoMatches.remove(doc);
+            }
+        }
         if (docsWithNoMatches.isEmpty()) {
             notifyAllDocumentsMatched(searchText);
         } else {
@@ -212,6 +217,25 @@ public class ReviewScreen {
     private void excludeCheckedDocs(ActionEvent event) {
 
     }
+
+    @FXML
+    private void tagDocument (ActionEvent event) {
+        TextInputDialog dialog = new TextInputDialog("tag");
+        dialog.setTitle("Set tag");
+        dialog.setHeaderText("Set tag");
+        dialog.setContentText("Please enter your tag:");
+
+        Optional<String> result = dialog.showAndWait();
+        result.ifPresent(tag -> {
+            for (TableDocument doc: selectedDocs) {
+                doc.getDocument().getTags().add(tag);
+            }
+        }
+        );
+        currentReview.save();
+        setDocuments();
+    }
+
 
     @FXML
     private void confirmDelete(ActionEvent event) {
@@ -299,7 +323,7 @@ public class ReviewScreen {
         if (searchText.isEmpty()) {
             return;
         }
-
+        filterString = searchText;
         filterProgressBar.setVisible(true);
 
         filterService.setDocs(docsTable.getItems());
@@ -337,6 +361,7 @@ public class ReviewScreen {
         private SimpleStringProperty title;
         private SimpleStringProperty year;
         private SimpleBooleanProperty selected;
+        private SimpleStringProperty tagString;
 
         TableDocument(Document document) {
             this.document = document;
@@ -344,6 +369,13 @@ public class ReviewScreen {
             title = new SimpleStringProperty(document.getTitle());
             year = new SimpleStringProperty(document.getYear());
             selected = new SimpleBooleanProperty(false);
+            if(document.getTags().size() > 0) {
+                String[] tags = new String[document.getTags().size()];
+                document.getTags().toArray(tags);
+                tagString = new SimpleStringProperty(String.join(",", tags));
+            } else {
+                tagString = new SimpleStringProperty("");
+            }
             selected.addListener((observable, oldValue, newValue) -> {
                 if (newValue) {
                     selectedDocs.add(TableDocument.this);
@@ -397,6 +429,10 @@ public class ReviewScreen {
 
         public SimpleBooleanProperty selectedProperty() {
             return selected;
+        }
+
+        public SimpleStringProperty tagStringProperty() {
+            return tagString;
         }
 
     }
